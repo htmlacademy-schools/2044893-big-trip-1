@@ -7,7 +7,7 @@ export const createWaypoint = (waypoints) => {
 
   const date = dayjs(dueDate).format('D MMM');
 
-  const activeFavorite = isFavorite ? '--active' : '';
+  const activeFavorite = isFavorite ? 'event__favorite-btn--active' : '';
 
   return `<div class="event">
   <time class="event__date" datetime="2019-03-19">${date}</time>

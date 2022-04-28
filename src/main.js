@@ -13,16 +13,17 @@ const tripEventsList = document.querySelector('.trip-events__list');
 const filters = document.querySelector('.trip-controls__filters');
 const navigation = document.querySelector('.trip-controls__navigation');
 const menu = document.querySelector('.trip-main');
-const count = 3;
-const waypoints = Array.from({length: count}, generateWaypoint);
+const COUNT = 3;
+const waypoints = Array.from({length: COUNT}, generateWaypoint);
 
 renderTemplate(tripEvents, createSiteEventsList(), RenderPosition.BEFOREEND);
 renderTemplate(navigation, createTripsNavigation(), RenderPosition.BEFOREEND);
-for (let i = 0; i < count; i++) 
-  {
-    renderTemplate(tripEventsList, createWaypoint(waypoints[i]), RenderPosition.BEFOREEND);
-  }
-  renderTemplate(menu, createMenu(), RenderPosition.AFTERBEGIN);
-  renderTemplate(tripEvents, createTripsSort(), RenderPosition.AFTERBEGIN);
-  renderTemplate(tripEventsList, createEditForm(waypoints[i]), RenderPosition.AFTERBEGIN);
-  renderTemplate(filters, createTripsFilters(), RenderPosition.BEFOREEND);
+renderTemplate(tripEventsList, createWaypoint(waypoints[1]), RenderPosition.AFTERBEGIN);
+renderTemplate(tripEventsList, createWaypoint(waypoints[0]), RenderPosition.AFTERBEGIN);
+for (let i = 2; i < COUNT; i++){
+  renderTemplate(tripEventsList, createWaypoint(waypoints[0]), RenderPosition.BEFOREEND);
+}
+renderTemplate(menu, createMenu(), RenderPosition.AFTERBEGIN);
+renderTemplate(tripEvents, createTripsSort(), RenderPosition.AFTERBEGIN);
+renderTemplate(tripEventsList, createEditForm(waypoints[i]), RenderPosition.AFTERBEGIN);
+renderTemplate(filters, createTripsFilters(), RenderPosition.BEFOREEND);

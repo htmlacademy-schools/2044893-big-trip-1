@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Cities, Offers } from '../utils.js';
+import { CITIES, Offers } from '../utils.js';
 import { OfferTypes } from '../utils.js';
 import { getRandomInteger } from '../utils.js';
 import { TextSentences} from '../utils.js';
@@ -18,9 +18,9 @@ const getRandomOfferType = () => {
 };
 
 const getRandomCity = () => {
-  const randomIndex = getRandomInteger(0, Cities.length - 1);
+  const randomIndex = getRandomInteger(0, CITIES.length - 1);
 
-  return Cities[randomIndex];
+  return CITIES[randomIndex];
 };
 
 const getOffer = () => {

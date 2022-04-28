@@ -1,5 +1,14 @@
 export const createEditForm = (waypoints) => {
   const {description, picture} = waypoints;
+
+  const photos = picture
+  // создаем массив элементов разметки из каждой фотографии
+  .forEach(p => {
+     return `<img class="event__photo" src="${p}" alt="Event photo">`
+  })
+  // объединяем массив в единую строку
+  .join('');
+
   return `<li class="trip-events__item">
               <form class="event event--edit" action="#" method="post">
                 <header class="event__header">
@@ -129,16 +138,11 @@ export const createEditForm = (waypoints) => {
                     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
                     <p class="event__destination-description">${description}</p>
                     <div class="event__photos-container">
-                      <div class="event__photos-tape">
-                        <img class="event__photo" src="${picture[0]}" alt="Event photo">
-                        <img class="event__photo" src="${picture[1]}" alt="Event photo">
-                        <img class="event__photo" src="${picture[2]}" alt="Event photo">
-                        <img class="event__photo" src="${picture[3]}" alt="Event photo">
-                        /*<img class="event__photo" src="img/photos/5.jpg" alt="Event photo">*/
-                      </div>
+                      ${photos}
                     </div>
                   </section>
                 </section>
               </form>
             </li>`;
+
 };
