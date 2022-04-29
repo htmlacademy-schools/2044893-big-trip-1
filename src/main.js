@@ -21,9 +21,8 @@ renderTemplate(navigation, createTripsNavigation(), RenderPosition.BEFOREEND);
 renderTemplate(tripEventsList, createWaypoint(waypoints[1]), RenderPosition.AFTERBEGIN);
 renderTemplate(tripEventsList, createWaypoint(waypoints[0]), RenderPosition.AFTERBEGIN);
 for (let i = 2; i < COUNT; i++){
-  renderTemplate(tripEventsList, createWaypoint(waypoints[0]), RenderPosition.BEFOREEND);
+  renderTemplate(tripEventsList, createWaypoint(waypoints[i]), RenderPosition.BEFOREEND);
 }
 renderTemplate(menu, createMenu(), RenderPosition.AFTERBEGIN);
 renderTemplate(tripEvents, createTripsSort(), RenderPosition.AFTERBEGIN);
-renderTemplate(tripEventsList, createEditForm(waypoints[i]), RenderPosition.AFTERBEGIN);
 renderTemplate(filters, createTripsFilters(), RenderPosition.BEFOREEND);

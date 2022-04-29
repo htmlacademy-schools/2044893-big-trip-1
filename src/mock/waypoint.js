@@ -30,15 +30,13 @@ const getOffer = () => {
 };
 
 const generateDescription = () => {
-    const randomIndex = getRandomInteger(0, TextSentences.length - 1);
+  const randomIndex = getRandomInteger(0, TextSentences.length - 1);  
+  let decription = '';
   
-    let decription = '';
-  
-    for (let i = 0; i < getRandomInteger(1, 5); i++) {
-      decription += TextSentences[randomIndex];
-    }
-  
-    return decription;
+  for (let i = 0; i < getRandomInteger(1, 5); i++){
+    decription += TextSentences[randomIndex];
+  } 
+  return decription;
 };
 
 const generatePicture = () => {
