@@ -1,7 +1,7 @@
-import { cities } from '../utils/cities';
-import { waypointTypes } from '../utils/waypointTypes';
-import { dateRend } from '../utils/functionsWithDayjs';
-import { createElement } from '../render';
+import { cities } from '../utils.js';
+import { waypointTypes } from '../utils';
+import { dateRend } from '../utils';
+import { createElement } from '../render.js';
 
 const createEditNewPointTemplate = (point) => {
   const  { waypointType, startDate, endDate, cost, offers, description } = point;
