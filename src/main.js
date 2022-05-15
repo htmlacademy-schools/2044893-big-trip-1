@@ -4,7 +4,7 @@ import TripSortTemplate from './view/site-trips-sort-view.js';
 import TripFiltersTemplate from './view/site-trips-filters-view.js';
 import EventsListTemplate from './view/site-event-list-view';
 import WaypointTemplate from './view/site-waypoint-view.js';
-import SiteAddNewPoint from './view/site-add-new-point-view.js'
+import SiteAddNewPoint from './view/site-add-new-point-view.js';
 import SiteEditNewPoint from './view/site-edit-new-point-view.js';
 import { generatePoint } from './mock/point.js';
 
