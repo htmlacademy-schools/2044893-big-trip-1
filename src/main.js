@@ -1,28 +1,70 @@
-import {renderTemplate, RenderPosition} from './render.js';
-import {createEditForm} from './view/edit-form.js';
-import {createSiteEventsList} from './view/event-list.js';
-import {createTripsFilters} from './view/trips-filters.js';
-import {createTripsNavigation} from './view/trips-navigation.js';
-import {createTripsSort} from './view/trips-sort.js';
-import {createWaypoint} from './view/waypoints.js';
-import {createMenu} from './view/menu.js';
-import {generateWaypoint} from './mock/waypoint.js';
+import { RenderPosition, render } from './render.js';
+import SiteMenuTemplate from './view/site-menu-view.js';
+import TripSortTemplate from './view/site-trips-sort-view.js';
+import TripFiltersTemplate from './view/site-trips-filters-view.js';
+import EventsListTemplate from './view/site-event-list-view';
+import WaypointTemplate from './view/site-waypoint-view.js';
+import SiteAddNewPoint from './view/site-add-new-point-view.js'
+import SiteEditNewPoint from './view/site-edit-new-point-view.js';
+import { generatePoint } from './mock/point.js';
 
-const tripEvents = document.querySelector('.trip-events');
-const tripEventsList = document.querySelector('.trip-events__list');
-const filters = document.querySelector('.trip-controls__filters');
-const navigation = document.querySelector('.trip-controls__navigation');
-const menu = document.querySelector('.trip-main');
+const tripEventsListElement = new EventsListTemplate();
+const tripNavigationElement = document.querySelector('.trip-controls__navigation');
+const tripFiltersElement = document.querySelector('.trip-controls__filters');
+const tripEventsElement = document.querySelector('.trip-events');
+
 const COUNT = 3;
-const waypoints = Array.from({length: COUNT}, generateWaypoint);
+const points = Array.from({length: COUNT}, generatePoint);
 
-renderTemplate(tripEvents, createSiteEventsList(), RenderPosition.BEFOREEND);
-renderTemplate(navigation, createTripsNavigation(), RenderPosition.BEFOREEND);
-renderTemplate(tripEventsList, createWaypoint(waypoints[1]), RenderPosition.AFTERBEGIN);
-renderTemplate(tripEventsList, createWaypoint(waypoints[0]), RenderPosition.AFTERBEGIN);
+
+render(tripNavigationElement, new SiteMenuTemplate().element, RenderPosition.BEFOREEND);
+render(tripEventsElement, new EventsListTemplate().element, RenderPosition.BEFOREEND);
+render(tripEventsElement, new TripSortTemplate().element, RenderPosition.AFTERBEGIN);
+render(tripFiltersElement, new TripFiltersTemplate().element, RenderPosition.BEFOREEND);
+
+render(tripEventsListElement.element, new SiteAddNewPoint(points[1]).element, RenderPosition.BEFOREEND);
+
+const createPoint = (pointsList, point) => {
+  const waypointTemplate = new WaypointTemplate(point);
+  const editPoint = new SiteEditNewPoint(point);
+
+  const replaceWaypointToForm = () => {
+    pointsList.replaceChild(editPoint.element, waypointTemplate.element);
+  };
+  const replaceFormToWaypoint = () => {
+    pointsList.replaceChild(waypointTemplate.element, editPoint.element);
+  };
+  const onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      replaceFormToWaypoint();
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
+  };
+
+waypointTemplate.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+  replaceWaypointToForm();
+  document.addEventListener('keydown', onEscKeyDown);
+});
+
+editPoint.element.querySelector('form').addEventListener('submit', (p) => {
+  p.preventDefault();
+  replaceFormToWaypoint();
+  document.removeEventListener('keydown', onEscKeyDown);
+});
+
+render(elementsList, itemTemplate.element, RenderPosition.BEFOREEND);
+};
+
+createPoint(tripEventsListElement.element, points[1]);
+createPoint(tripEventsListElement.element, points[0]);
 for (let i = 2; i < COUNT; i++){
-  renderTemplate(tripEventsList, createWaypoint(waypoints[i]), RenderPosition.BEFOREEND);
+  createPoint(tripEventsListElement.element, points[0]);
 }
-renderTemplate(menu, createMenu(), RenderPosition.AFTERBEGIN);
-renderTemplate(tripEvents, createTripsSort(), RenderPosition.AFTERBEGIN);
-renderTemplate(filters, createTripsFilters(), RenderPosition.BEFOREEND);
+
+
+
+
+
+
+
