@@ -20,9 +20,9 @@ export const render = (container, element, place) => {
       container.after(element);
       break;
   }
-}; 
+};
 export const createElement = (template) => {
   const newElement = document.createElement('div');
-  newElement.innerHTML = template; 
+  newElement.innerHTML = template;
   return newElement.firstChild;
 };

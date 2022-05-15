@@ -122,7 +122,7 @@ const createAddNewPointTemplate = (point) => {
                   </section>
                 </form>
               </li>`;
-}
+};
 
 export default class SiteAddNewPoint {
   #element = null;
@@ -147,4 +147,4 @@ export default class SiteAddNewPoint {
   removeElement() {
     this.#element = null;
   }
-};
+}

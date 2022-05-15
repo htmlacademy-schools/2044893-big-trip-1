@@ -9,7 +9,7 @@ const createSiteMenuTemplate = () => (
 export default class SiteMenuTemplate {
   #element = null;
 
-  get element() 
+  get element()
   {
     if (!this.#element) {
       this.#element = createElement(this.template);
@@ -18,12 +18,12 @@ export default class SiteMenuTemplate {
     return this.#element;
   }
 
-  get template() 
+  get template()
   {
     return createSiteMenuTemplate();
   }
 
-  removeElement() 
+  removeElement()
   {
     this.#element = null;
   }

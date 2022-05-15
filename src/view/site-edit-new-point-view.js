@@ -119,7 +119,7 @@ const createEditNewPointTemplate = (point) => {
       </section>
     </form>
   </li> `;
-}
+};
 
 export default class SiteEditNewPoint {
   #element = null;
