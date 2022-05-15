@@ -1,9 +1,9 @@
 export const RenderPosition = {
-    BEFOREBEGIN: 'beforebegin',
-    AFTERBEGIN: 'afterbegin',
-    BEFOREEND: 'beforeend',
-    AFTEREND: 'afterend',
-  };
+  BEFOREBEGIN: 'beforebegin',
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+  AFTEREND: 'afterend',
+};
 
 export const render = (container, element, place) => {
   switch (place) {
@@ -19,12 +19,10 @@ export const render = (container, element, place) => {
     case RenderPosition.AFTEREND:
       container.after(element);
       break;
-    }
-  };
-  
+  }
+}; 
 export const createElement = (template) => {
   const newElement = document.createElement('div');
-  newElement.innerHTML = template;
-  
+  newElement.innerHTML = template; 
   return newElement.firstChild;
 };

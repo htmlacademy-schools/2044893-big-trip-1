@@ -42,18 +42,18 @@ const createPoint = (pointsList, point) => {
     }
   };
 
-waypointTemplate.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-  replaceWaypointToForm();
-  document.addEventListener('keydown', onEscKeyDown);
-});
+  waypointTemplate.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    replaceWaypointToForm();
+    document.addEventListener('keydown', onEscKeyDown);
+  });
 
-editPoint.element.querySelector('form').addEventListener('submit', (p) => {
-  p.preventDefault();
-  replaceFormToWaypoint();
-  document.removeEventListener('keydown', onEscKeyDown);
-});
+  editPoint.element.querySelector('form').addEventListener('submit', (p) => {
+    p.preventDefault();
+    replaceFormToWaypoint();
+    document.removeEventListener('keydown', onEscKeyDown);
+  });
 
-render(elementsList, itemTemplate.element, RenderPosition.BEFOREEND);
+  render(pointsList, waypointTemplate.element, RenderPosition.BEFOREEND);
 };
 
 createPoint(tripEventsListElement.element, points[1]);
@@ -61,10 +61,3 @@ createPoint(tripEventsListElement.element, points[0]);
 for (let i = 2; i < COUNT; i++){
   createPoint(tripEventsListElement.element, points[0]);
 }
-
-
-
-
-
-
-
