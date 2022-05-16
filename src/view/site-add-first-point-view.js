@@ -10,12 +10,14 @@ export default class iteAddFirstPoint {
   get element() {
     if (!this.#element) {
       this.#element = createElement(this.template);
-    }  
+    }
     return this.#element;
-  }  
+  }
+
   get template() {
     return createFirstPointTemplate();
   }
+  
   removeElement() {
     this.#element = null;
   }
