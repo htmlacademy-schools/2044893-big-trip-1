@@ -1,6 +1,6 @@
 import { cities } from '../utils.js';
-import { waypointTypes } from '../utils';
-import { dateRend } from '../utils';
+import { waypointTypes } from '../utils.js';
+import { dateRend } from '../utils.js';
 import { createElement } from '../render.js';
 
 const createEditNewPointTemplate = (point) => {

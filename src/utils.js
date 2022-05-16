@@ -48,47 +48,4 @@ export const descriptions = [
   'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.'
 ];
 
-export const Offers = [
-  {
-    offerType: 'Taxi',
-    offerName: 'Order Taxi',
-    price: 40,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'Flight',
-    offerName: 'buy a ticket',
-    price: 500,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'Flight',
-    offerName: 'Switch to comfort',
-    price: 100,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'Bus',
-    offerName: 'buy a ticket',
-    price: 12,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'Hotel',
-    offerName: 'book a room for a day',
-    price: 100,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'train',
-    offerName: 'choose a reserved seat wagon',
-    price: 100,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-  {
-    offerType: 'restaurant',
-    offerName: 'order coffee',
-    price: 10,
-    isChosen: Boolean(getRandomInteger(0, 1))
-  },
-];
+
