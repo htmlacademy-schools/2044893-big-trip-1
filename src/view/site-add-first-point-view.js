@@ -6,7 +6,7 @@ const createFirstPointTemplate = () => {
     </p>`
 }
 
-export default class SiteAddFirstPoint {
+export default class iteAddFirstPoint {
   #element = null;
   
   get element() {

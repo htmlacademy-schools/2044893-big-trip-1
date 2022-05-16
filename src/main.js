@@ -20,11 +20,11 @@ const points = Array.from({length: COUNT}, generatePoint);
 render(tripNavigationElement, new SiteMenuTemplate().element, RenderPosition.BEFOREEND);
 render(tripFiltersElement, new TripFiltersTemplate().element, RenderPosition.BEFOREEND);
 
-if (points.length == 0)
+if (points.length === 0)
 {
   render(tripEventsElement, new SiteAddFirstPoint().element, RenderPosition.BEFOREEND);
 }
-else 
+else
 {
   render(tripEventsElement, new EventsListTemplate().element, RenderPosition.BEFOREEND);
   render(tripEventsElement, new TripSortTemplate().element, RenderPosition.AFTERBEGIN);
@@ -60,7 +60,7 @@ const createPoint = (pointsList, point) => {
     document.removeEventListener('keydown', onEscKeyDown);
   });
   editPoint.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-    replaceFormToWaypoint(); 
+    replaceFormToWaypoint();
   });
 
   render(pointsList, waypointTemplate.element, RenderPosition.BEFOREEND);
