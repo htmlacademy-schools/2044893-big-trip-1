@@ -137,6 +137,7 @@ export default class SiteEditNewPoint extends AbstractView{
     this._callback.formSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
   };
+  
   EventRollUpBtnHandler = (callback) => {
     this._callback.rollupClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#RollUpBtnClick);

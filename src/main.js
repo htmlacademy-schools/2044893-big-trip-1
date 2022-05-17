@@ -54,7 +54,7 @@ const createPoint = (pointsList, point) => {
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  editPoint.FormSubmitHandler((p) => {
+  editPoint.FormSubmitHandler(() => {
     replaceFormToWaypoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });

@@ -7,7 +7,7 @@ const createFirstPointTemplate = () => (
 );
 export default class SiteAddFirstPoint extends AbstractView {
   get template() {
-    return createFirstPoint();
+    return createFirstPointTemplate();
   }
 }
 

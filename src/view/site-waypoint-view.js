@@ -1,5 +1,4 @@
 import { dateRend } from '../utils.js';
-import { createElement } from '../render';
 import AbstractView from './site-abstract-class-view.js';
 
 const createWaypointTemplate = (point) => {
@@ -85,7 +84,6 @@ export default class WaypointTemplate extends AbstractView {
     super();
     this.#point = point;
   }
-  
   get template() {
     return createWaypointTemplate(this.#point);
   }
