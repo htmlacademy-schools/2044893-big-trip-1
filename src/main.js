@@ -17,8 +17,8 @@ const tripEventsElement = document.querySelector('.trip-events');
 const COUNT = 3;
 const points = Array.from({length: COUNT}, generatePoint);
 
-render(tripNavigationElement, SiteMenuTemplate , RenderPosition.BEFOREEND);
-render(tripFiltersElement, TripFiltersTemplate , RenderPosition.BEFOREEND);
+render(tripNavigationElement, new SiteMenuTemplate().element , RenderPosition.BEFOREEND);
+render(tripFiltersElement, new TripFiltersTemplate().element , RenderPosition.BEFOREEND);
 
 if (points.length === 0)
 {
@@ -26,7 +26,7 @@ if (points.length === 0)
 }
 else
 {
-  render(tripEventsElement, EventsListTemplate , RenderPosition.BEFOREEND);
+  render(tripEventsElement,new EventsListTemplate().element , RenderPosition.BEFOREEND);
   render(tripEventsElement, new TripSortTemplate(), RenderPosition.AFTERBEGIN);
   render(tripEventsListElement.element,SiteAddNewPoint(points[0]), RenderPosition.BEFOREEND);
 }
@@ -49,17 +49,17 @@ const createPoint = (pointsList, point) => {
     }
   };
 
-  waypointTemplate.element.EditClickHandler(() => {
+  waypointTemplate.element.editClickHandler(() => {
     replaceWaypointToForm();
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  editPoint.FormSubmitHandler(() => {
+  editPoint.formSubmitHandler(() => {
     replaceFormToWaypoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });
 
-  editPoint.EventRollUpBtnHandler(() => {
+  editPoint.eventRollUpBtnHandler(() => {
     replaceFormToWaypoint();
     document.addEventListener('keydown', onEscKeyDown);
   });

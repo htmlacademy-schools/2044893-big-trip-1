@@ -133,12 +133,11 @@ export default class SiteEditNewPoint extends AbstractView{
     return createEditNewPointTemplate(this.#point);
   }
 
-  FormSubmitHandler = (callback) => {
+  formSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
     this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
-  };
-  
-  EventRollUpBtnHandler = (callback) => {
+  }; 
+  eventRollUpBtnHandler = (callback) => {
     this._callback.rollupClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#RollUpBtnClick);
   };

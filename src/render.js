@@ -1,4 +1,4 @@
-import AbstractView from '../view/site-abstract-class-view.js';
+import AbstractView from './view/site-abstract-class-view.js';
 
 export const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
