@@ -91,9 +91,21 @@ export default class WaypointTemplate extends AbstractView {
     this._callback.editClick = callback;
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClick);
   };
+  
+  favoriteClickHandler = (callback) => {
+    this._callback.favoriteClick = callback;
+    this.element.querySelector('.event__favorite-btn').addEventListener('click', this.#favoriteClick);
+  };
 
   #editClick = (evt) => {
     evt.preventDefault();
     this._callback.editClick();
   };
+
+  #favoriteClick = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  };
 }
+
+

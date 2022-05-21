@@ -4,6 +4,7 @@ import { cities } from '../utils.js';
 import { getRandomInteger } from '../utils.js';
 import { generateImages } from '../utils.js';
 import { generateBeginEndDates } from '../utils.js';
+import { nanoid } from 'nanoid';
 
 const generateType = () => {
   const types = waypointTypes;
@@ -93,6 +94,7 @@ export const generatePoint = () => {
   const date = generateBeginEndDates();
 
   return {
+    id: nanoid(),
     waypointType: generateType(),
     destination: generateDestination(),
     startDate: date.start,
