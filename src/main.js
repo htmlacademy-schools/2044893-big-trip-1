@@ -1,13 +1,13 @@
-import { RenderPosition, render } from '../render.js';
-import SiteMenuTemplate from '../view/site-menu-view.js';
-import TripSortTemplate from '../view/site-trips-sort-view.js';
-import TripFiltersTemplate from '../view/site-trips-filters-view.js';
-import EventsListTemplate from '../view/site-event-list-view';
-import WaypointTemplate from '../view/site-waypoint-view.js';
-import SiteAddNewPoint from '../view/site-add-new-point-view.js';
-import SiteEditNewPoint from '../view/site-edit-new-point-view.js';
-import SiteAddFirstPoint from '../view/site-add-first-point-view.js';
-import { generatePoint } from '../mock/point.js';
+import { RenderPosition, render } from './render.js';
+import SiteMenuTemplate from './view/site-menu-view.js';
+import TripSortTemplate from './view/site-trips-sort-view.js';
+import TripFiltersTemplate from './view/site-trips-filters-view.js';
+import EventsListTemplate from './view/site-event-list-view';
+import WaypointTemplate from './view/site-waypoint-view.js';
+import SiteAddNewPoint from './view/site-add-new-point-view.js';
+import SiteEditNewPoint from './view/site-edit-new-point-view.js';
+import SiteAddFirstPoint from './view/site-add-first-point-view.js';
+import { generatePoint } from './mock/point.js';
 
 const tripEventsListElement = new EventsListTemplate();
 const tripNavigationElement = document.querySelector('.trip-controls__navigation');
@@ -17,18 +17,18 @@ const tripEventsElement = document.querySelector('.trip-events');
 const COUNT = 3;
 const points = Array.from({length: COUNT}, generatePoint);
 
-render(tripNavigationElement, new SiteMenuTemplate().element, RenderPosition.BEFOREEND);
-render(tripFiltersElement, new TripFiltersTemplate().element, RenderPosition.BEFOREEND);
+render(tripNavigationElement, new SiteMenuTemplate().element , RenderPosition.BEFOREEND);
+render(tripFiltersElement, new TripFiltersTemplate().element , RenderPosition.BEFOREEND);
 
 if (points.length === 0)
 {
-  render(tripEventsElement, new SiteAddFirstPoint().element, RenderPosition.BEFOREEND);
+  render(tripEventsElement, SiteAddFirstPoint(), RenderPosition.BEFOREEND);
 }
 else
 {
-  render(tripEventsElement, new EventsListTemplate().element, RenderPosition.BEFOREEND);
-  render(tripEventsElement, new TripSortTemplate().element, RenderPosition.AFTERBEGIN);
-  render(tripEventsListElement.element, new SiteAddNewPoint(points[0]).element, RenderPosition.BEFOREEND);
+  render(tripEventsElement,new EventsListTemplate().element , RenderPosition.BEFOREEND);
+  render(tripEventsElement, new TripSortTemplate(), RenderPosition.AFTERBEGIN);
+  render(tripEventsListElement.element,SiteAddNewPoint(points[0]), RenderPosition.BEFOREEND);
 }
 
 const createPoint = (pointsList, point) => {
@@ -49,25 +49,26 @@ const createPoint = (pointsList, point) => {
     }
   };
 
-  waypointTemplate.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+  waypointTemplate.element.editClickHandler(() => {
     replaceWaypointToForm();
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  editPoint.element.querySelector('form').addEventListener('submit', (p) => {
-    p.preventDefault();
+  editPoint.formSubmitHandler(() => {
     replaceFormToWaypoint();
     document.removeEventListener('keydown', onEscKeyDown);
   });
-  editPoint.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+
+  editPoint.eventRollUpBtnHandler(() => {
     replaceFormToWaypoint();
+    document.addEventListener('keydown', onEscKeyDown);
   });
 
-  render(pointsList, waypointTemplate.element, RenderPosition.BEFOREEND);
+  render(pointsList, waypointTemplate, RenderPosition.BEFOREEND);
 };
 
-createPoint(tripEventsListElement.element, points[1]);
-createPoint(tripEventsListElement.element, points[0]);
+createPoint(tripEventsListElement, points[1]);
+createPoint(tripEventsListElement, points[0]);
 for (let i = 2; i < COUNT; i++){
-  createPoint(tripEventsListElement.element, points[0]);
+  createPoint(tripEventsListElement, points[i]);
 }

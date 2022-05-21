@@ -3,7 +3,7 @@ import { waypointTypes } from '../utils.js';
 import { generateDescription } from '../mock/point.js';
 import { generateImages } from '../utils.js';
 import { dateRend } from '../utils.js';
-import { createElement } from '../render';
+import AbstractView from '../view/site-abstract-class-view.js';
 
 const createAddNewPointTemplate = (point) => {
   const  { startDate, endDate, cost, offers } = point;
@@ -124,27 +124,15 @@ const createAddNewPointTemplate = (point) => {
               </li>`;
 };
 
-export default class SiteAddNewPoint {
-  #element = null;
+export default class SiteAddNewPoint extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createAddNewPointTemplate(this.#point);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

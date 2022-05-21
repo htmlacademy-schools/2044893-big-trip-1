@@ -1,7 +1,7 @@
 import { cities } from '../utils.js';
 import { waypointTypes } from '../utils.js';
 import { dateRend } from '../utils.js';
-import { createElement } from '../render.js';
+import AbstractView from '../view/site-abstract-class-view.js';
 
 const createEditNewPointTemplate = (point) => {
   const  { waypointType, startDate, endDate, cost, offers, description } = point;
@@ -121,27 +121,36 @@ const createEditNewPointTemplate = (point) => {
   </li> `;
 };
 
-export default class SiteEditNewPoint {
-  #element = null;
+export default class SiteEditNewPoint extends AbstractView{
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createEditNewPointTemplate(this.#point);
   }
 
-  removeElement() {
-    this.#element = null;
-  }
+  formSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
+  }; 
+  eventRollUpBtnHandler = (callback) => {
+    this._callback.rollupClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#RollUpBtnClick);
+  };
+
+
+  #formSubmit = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
+
+
+  #RollUpBtnClick = (evt) => {
+    evt.preventDefault();
+    this._callback.rollupClick();
+  };
 }

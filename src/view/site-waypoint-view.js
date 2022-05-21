@@ -1,5 +1,5 @@
 import { dateRend } from '../utils.js';
-import { createElement } from '../render';
+import AbstractView from '../view/site-abstract-class-view.js';
 
 const createWaypointTemplate = (point) => {
   const {waypointType, destination, startDate, endDate, cost, duration, offers, favor} = point;
@@ -77,27 +77,23 @@ const createWaypointTemplate = (point) => {
               </li>`;
 };
 
-export default class WaypointTemplate {
-  #element = null;
+export default class WaypointTemplate extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
   get template() {
     return createWaypointTemplate(this.#point);
   }
+  editClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClick);
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  #editClick = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
+  };
 }
