@@ -60,6 +60,27 @@ export const updateItem = (items, update) => {
     update,
     ...items.slice(index + 1),
   ];
+  
 };
 
+export const SortType = {
+  SORT_DAY: 'sort-day',
+  SORT_TIME: 'sort-time',
+  SORT_PRICE: 'sort-price'
+};
+
+export const sortPointByDay = (pointOne, pointTwo) => dayjs(pointOne.startDate).diff(dayjs(pointTwo.startDate));
+
+export const sortPointByDuration = (pointOne, pointTwo) => {
+  const pointOneDuration = dayjs(pointOne.endDate).diff(dayjs(pointOne.startDate));
+  const pointTwoDuration = dayjs(pointTwo.endDate).diff(dayjs(pointTwo.startDate));
+
+  return (pointTwoDuration - pointOneDuration !== 0) ? pointTwoDuration - pointOneDuration : dayjs(pointOne.startDate).diff(dayjs(pointTwo.startDate));
+  
+};
+
+export const sortPointByPrice = (pointOne, pointTwo) => {
+    return (pointTwo.price - pointOne.price !== 0) ? pointTwo.price - pointOne.price: dayjs(pointOne.startDate).diff(dayjs(pointTwo.startDate)); 
+
+};
 

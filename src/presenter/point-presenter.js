@@ -24,9 +24,9 @@ const Mode = {
     }
   
     init = (waypoint) => {
+      this.#waypoint = waypoint;
       const prevWaypointComponent = this.#waypointTemplateComponent;
       const prevEditPointComponent = this.#editPointComponent;
-      this.#waypoint = waypoint;
       this.#waypointTemplateComponent = new WaypointTemplate(waypoint);
       this.#editPointComponent = new SiteEditNewPoint(waypoint);
   
