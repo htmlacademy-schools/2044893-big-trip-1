@@ -2,12 +2,12 @@ import { dateRend } from '../utils.js';
 import AbstractView from '../view/site-abstract-class-view.js';
 
 const createWaypointTemplate = (point) => {
-  const {waypointType, destination, startDate, endDate, cost, duration, offers, favor} = point;
-  const startDateayMonth = dateRend(startDate, 'MMM D');
-  const startDateate = dateRend(startDate, 'YYYY-MM-D');
-  const startDateatetime = dateRend(startDate, 'YYYY-MM-DDTHH:mm');
-  const startTime = dateRend(startDate, 'HH:mm');
-  const endDateatetime = dateRend(endDate, 'YYYY-MM-DDTHH:mm');
+  const {waypointType, destination, startD, endDate, cost, duration, offers, favor} = point;
+  const startDayMonth = dateRend(startD, 'MMM D');
+  const startDate = dateRend(startD, 'YYYY-MM-D');
+  const startDatetime = dateRend(startD, 'YYYY-MM-DDTHH:mm');
+  const startTime = dateRend(startD, 'HH:mm');
+  const endDatetime = dateRend(endDate, 'YYYY-MM-DDTHH:mm');
   const endTime = dateRend(endDate, 'HH:mm');
 
   const getDuration = (dur) => {
@@ -44,16 +44,16 @@ const createWaypointTemplate = (point) => {
   return `<li class="trip-events__item">
             <li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime="${ startDateate }">${ startDateayMonth }</time>
+                <time class="event__date" datetime="${ startDate }">${ startDayMonth }</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/${ waypointType }.png" alt="Event type icon">
                 </div>
                 <h3 class="event__title">${ waypointType } ${ destination }</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime="${ startDateatetime}">${ startTime }</time>
+                    <time class="event__start-time" datetime="${ startDatetime}">${ startTime }</time>
                     &mdash;
-                    <time class="event__end-time" datetime="${ endDateatetime }">${ endTime }</time>
+                    <time class="event__end-time" datetime="${ endDatetime }">${ endTime }</time>
                   </p>
                   <p class="event__duration">${ durat }</p>
                 </div>
@@ -78,7 +78,7 @@ const createWaypointTemplate = (point) => {
 };
 
 export default class WaypointTemplate extends AbstractView {
-  #point = null;
+  #point = {};
 
   constructor(point) {
     super();
