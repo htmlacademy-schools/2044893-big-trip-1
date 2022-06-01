@@ -12,7 +12,7 @@ const Mode = {
     #changeData = null;
     #changeMode = null;
   
-    #waypointTemplateComponent = null;
+    #waypointComponent = null;
     #editPointComponent = null;
     #waypoint = null;
     #mode = Mode.DEFAULT;
@@ -25,23 +25,23 @@ const Mode = {
   
     init = (waypoint) => {
       this.#waypoint = waypoint;
-      const prevWaypointComponent = this.#waypointTemplateComponent;
+      const prevWaypointComponent = this.#waypointComponent;
       const prevEditPointComponent = this.#editPointComponent;
-      this.#waypointTemplateComponent = new WaypointTemplate(waypoint);
+      this.#waypointComponent = new WaypointTemplate(waypoint);
       this.#editPointComponent = new SiteEditNewPoint(waypoint);
   
-      this.#waypointTemplateComponent.editClickHandler(this.#editClick);
-      this.#waypointTemplateComponent.favoriteClickHandler(this.#favoriteClick);
+      this.#waypointComponent.editClickHandler(this.#editClick);
+      this.#waypointComponent.favoriteClickHandler(this.#favoriteClick);
       this.#editPointComponent.eventRollUpBtnHandler(this.#RollUpBtnClick);
       this.#editPointComponent.formSubmitHandler(this.#formSubmit);
   
       if (prevWaypointComponent === null || prevEditPointComponent === null) {
-        render(this.#waypointContainer, this.#waypointTemplateComponent, RenderPosition.BEFOREEND);
+        render(this.#waypointContainer, this.#waypointComponent, RenderPosition.BEFOREEND);
         return;
       }
   
       if (this.#mode === Mode.DEFAULT) {
-        replace(this.#waypointTemplateComponent, prevWaypointComponent);
+        replace(this.#waypointComponent, prevWaypointComponent);
       }
   
       if (this.#mode === Mode.EDITING) {
@@ -53,25 +53,26 @@ const Mode = {
     };
   
     destroy = () => {
-      remove(this.#waypointTemplateComponent);
+      remove(this.#waypointComponent);
       remove(this.#editPointComponent);
     };
   
     resetView = () => {
       if (this.#mode !== Mode.DEFAULT) {
+        this.#editPointComponent.reset(this.#waypoint);
         this.#replaceFormToWaypoint();
       }
     };
   
     #replaceWaypointToForm = () => {
-      replace(this.#editPointComponent, this.#waypointTemplateComponent);
+      replace(this.#editPointComponent, this.#waypointComponent);
       document.addEventListener('keydown', this.#escKeyDownHandler);
       this.#changeMode();
       this.#mode = Mode.EDITING;
     };
   
     #replaceFormToWaypoint = () => {
-      replace(this.#waypointTemplateComponent, this.#editPointComponent);
+      replace(this.#waypointComponent, this.#editPointComponent);
       document.removeEventListener('keydown', this.#escKeyDownHandler);
       this.#mode = Mode.DEFAULT;
     };
@@ -79,11 +80,13 @@ const Mode = {
     #escKeyDownHandler = (evt) => {
       if (evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
+        this.#editPointComponent.reset(this.#waypoint);
         this.#replaceFormToWaypoint();
       }
     };
   
     #RollUpBtnClick = () => {
+      this.#editPointComponent.reset(this.#waypoint);
       this.#replaceFormToWaypoint();
     };
   
