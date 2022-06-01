@@ -135,14 +135,14 @@ export default class SiteEditNewPoint extends SmartView{
   #startTimeChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      dateFrom: evt.target.value //ИСПРАВИТЬ!!!!!!!!!!!!
+      dateFrom: evt.target.value 
     }, true);
   }
 
   #endTimeChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      dateTo: evt.target.value //ИСПРАВИТЬ!!!!!!!!!!!!
+      dateTo: evt.target.value 
     }, true);
   }
 
@@ -176,12 +176,12 @@ export default class SiteEditNewPoint extends SmartView{
   }
 
   static parsePointToData = (point) => ({...point,
-    // В будущем здесь появится обработка Предложений (Offers).
+  
   });
 
   static parseDataToPoint = (data) => {
     const point = {...data};
-    // В будущем здесь появится обработка Предложений (Offers).
+
 
     return point;
   }
