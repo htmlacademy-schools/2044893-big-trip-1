@@ -5,11 +5,11 @@ export const offersList = () => ([
         {
           'id': 1,
           'title': 'попросить отключить музыку',
-          'price': 10
+          'cost': 10
         },{
           'id': 2,
           'title': 'повысить класс',
-          'price': 65
+          'cost': 65
         }
       ]
     },
@@ -19,7 +19,7 @@ export const offersList = () => ([
         {
           'id': 3,
           'title': 'выбрать места',
-          'price': 5
+          'cost': 5
         }
       ]
     },
@@ -29,27 +29,27 @@ export const offersList = () => ([
         {
           'id': 4,
           'title': 'выбрать места',
-          'price': 5
+          'cost': 5
         }, {
           'id': 5,
           'title': 'с животным',
-          'price': 50
+          'cost': 50
         }, {
           'id': 6,
           'title': 'нешумный вагон',
-          'price': 140
+          'cost': 140
         }, {
           'id': 7,
           'title': 'с багажом',
-          'price': 30
+          'cost': 30
         }, {
           'id': 8,
           'title': 'обед',
-          'price': 25
+          'cost': 25
         }, {
           'id': 9,
           'title': 'комфорт-класс',
-          'price': 100
+          'cost': 100
         }
       ]
     },
@@ -59,15 +59,15 @@ export const offersList = () => ([
         {
           'id': 10,
           'title': 'Завтрак на палубе',
-          'price': 200
+          'cost': 200
         }, {
           'id': 11,
           'title': 'кабина комфорт-класса',
-          'price': 400
+          'cost': 400
         }, {
           'id': 12,
           'title': 'с кондиционером',
-          'price': 100
+          'cost': 100
         }
       ]
     },
@@ -77,19 +77,19 @@ export const offersList = () => ([
         {
           'id': 13,
           'title': 'аренда машины',
-          'price': 400
+          'cost': 400
         }, {
           'id': 14,
           'title': 'Повысить класс автомобиля',
-          'price': 180
+          'cost': 180
         }, {
           'id': 15,
           'title': 'Бензин',
-          'price': 90
+          'cost': 90
         }, {
           'id': 16,
           'title': 'Крыша с панорамным видом',
-          'price': 100
+          'cost': 100
         }
       ]
     },
@@ -99,19 +99,19 @@ export const offersList = () => ([
         {
           'id': 17,
           'title': 'Обед',
-          'price': 50
+          'cost': 50
         }, {
           'id': 18,
           'title': 'Заказать такси в пункте прибытия',
-          'price': 110
+          'cost': 110
         }, {
           'id': 19,
           'title': 'Выбрать места',
-          'price': 5
+          'cost': 5
         }, {
           'id': 20,
           'title': 'Комфорт-класс',
-          'price': 100
+          'cost': 100
         }
       ]
     },
@@ -121,15 +121,15 @@ export const offersList = () => ([
         {
           'id': 21,
           'title': 'Завтрак',
-          'price': 120
+          'cost': 120
         }, {
           'id': 22,
           'title': 'комфорт-класс',
-          'price': 250
+          'cost': 250
         }, {
           'id': 23,
           'title': 'минибар',
-          'price': 700
+          'cost': 700
         }
       ]
     },
@@ -139,15 +139,15 @@ export const offersList = () => ([
         {
           'id': 24,
           'title': 'Путеводитель по городу',
-          'price': 300
+          'cost': 300
         }, {
           'id': 25,
           'title': 'Покупка сувениров',
-          'price': 170
+          'cost': 170
         }, {
           'id': 26,
           'title': 'экскурсия',
-          'price': 250
+          'cost': 250
         }
       ]
     },{
@@ -156,12 +156,13 @@ export const offersList = () => ([
         {
           'id': 27,
           'title': 'бюджетный обед',
-          'price': 200
+          'cost': 200
         }, {
           'id': 28,
           'title': 'чаевые',
-          'price': 40
+          'cost': 40
         }
       ]
     }
   ]);
+  

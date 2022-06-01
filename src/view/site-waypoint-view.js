@@ -54,7 +54,7 @@ const CreateOffers = (pointType, offersByTypes) => {
   const createOfferMarkup = (offer) => `<li class="event__offer">
                   <span class="event__offer-title">${offer.title}</span>
                   &plus;&euro;&nbsp;
-                  <span class="event__offer-price">${offer.price}</span>
+                  <span class="event__offer-price">${offer.cost}</span>
                 </li>`;
 
   let offersByThemType = [];
@@ -88,7 +88,7 @@ return `<li class="trip-events__item">
     <p class="event__duration">${duration}</p>
   </div>
   <p class="event__price">
-    &euro;&nbsp;<span class="event__price-value">${price}</span>
+    &euro;&nbsp;<span class="event__price-value">${cost}</span>
   </p>
   <h4 class="visually-hidden">Offers:</h4>
   <ul class="event__selected-offers">${OffersMarkup}</ul>

@@ -1,6 +1,7 @@
-import dayjs from 'dayjs';
 import { generateFromToDates } from '../utils/utils.js';
 import { getRandomInteger } from '../utils/utils.js';
+import { destinations } from '../utils/destinations.js';
+import { offersList } from '../utils/offers.js';
 import { nanoid } from 'nanoid';
 
 /*const generateDestination = () => {
@@ -8,8 +9,6 @@ import { nanoid } from 'nanoid';
   const randomIndex = getRandomInteger(0, dest.length - 1);
   return dest[randomIndex];
 };*/
-
-const getDuration = () => ' ';
 
 /*export const generateDescription = () => {
   const description = descriptions;

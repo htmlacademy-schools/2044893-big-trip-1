@@ -115,3 +115,4 @@ export default class TripPresenter {
       this.#pointPresenter.clear();
     };
   }
+  

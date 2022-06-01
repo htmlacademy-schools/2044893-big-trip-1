@@ -80,8 +80,7 @@ export const sortPointByDuration = (pointOne, pointTwo) => {
 };
 
 export const sortPointByPrice = (pointOne, pointTwo) => {
-    return (pointTwo.price - pointOne.price !== 0) ? pointTwo.price - pointOne.price: dayjs(pointOne.dateFrom).diff(dayjs(pointTwo.dateFrom)); 
-
+    return (pointTwo.cost - pointOne.cost !== 0) ? pointTwo.cost- pointOne.cost: dayjs(pointOne.dateFrom).diff(dayjs(pointTwo.dateFrom)); 
 }; 
  
 export const createWaypointTypesMarkup = (offers, chosenPointType) => {
@@ -106,7 +105,7 @@ export const createOffersSegmentMarkup = (offersByTypes, pointType) => {
                         <label class="event__offer-label" for="event-offer-name-1">
                           <span class="event__offer-title">${offer.title}</span>
                           &plus;&euro;&nbsp;
-                          <span class="event__offer-price">${offer.price}</span>
+                          <span class="event__offer-price">${offer.cost}</span>
                         </label>
                       </div>`;
 

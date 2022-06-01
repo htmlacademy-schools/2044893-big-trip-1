@@ -115,7 +115,7 @@ export default class SiteEditNewPoint extends SmartView{
     this.element.querySelector('.event__input-end-time')
       .addEventListener('change', this.#endTimeChange);
     this.element.querySelector('.event__input--price')
-      .addEventListener('change', this.#basePriceChange);
+      .addEventListener('change', this.#priceChange);
   }
 
   #typeGroupClick = (evt) => {
@@ -146,10 +146,10 @@ export default class SiteEditNewPoint extends SmartView{
     }, true);
   }
 
-  #basePriceChange = (evt) => {
+  #priceChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      basePrice: evt.target.value
+      cost: evt.target.value
     }, true);
   }
 
@@ -176,12 +176,12 @@ export default class SiteEditNewPoint extends SmartView{
   }
 
   static parsePointToData = (point) => ({...point,
-  
+    // В будущем здесь появится обработка Предложений (Offers).
   });
 
   static parseDataToPoint = (data) => {
     const point = {...data};
-
+    // В будущем здесь появится обработка Предложений (Offers).
 
     return point;
   }

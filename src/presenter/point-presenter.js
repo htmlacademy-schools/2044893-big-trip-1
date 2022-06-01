@@ -103,3 +103,4 @@ const Mode = {
       this.#changeData({...this.#waypoint, isFavorite: !this.#waypoint.isFavorite});
     };
   }
+  
