@@ -1,34 +1,24 @@
-import { descriptions } from '../utils.js';
-import { waypointTypes } from '../utils.js';
-import { cities } from '../utils.js';
-import { getRandomInteger } from '../utils.js';
-import { generateImages } from '../utils.js';
-import { generateBeginEndDates } from '../utils.js';
+import { generateFromToDates } from '../utils/utils.js';
+import { getRandomInteger } from '../utils/utils.js';
+import { destinations } from '../utils/destinations.js';
+import { offersList } from '../utils/offers.js';
 import { nanoid } from 'nanoid';
 
-const generateType = () => {
-  const types = waypointTypes;
-  const randomIndex = getRandomInteger(0, types.length - 1);
-  return types[randomIndex];
-};
-
-const generateDestination = () => {
+/*const generateDestination = () => {
   const dest = cities;
   const randomIndex = getRandomInteger(0, dest.length - 1);
   return dest[randomIndex];
-};
+};*/
 
-const getDuration = () => ' ';
-
-export const generateDescription = () => {
+/*export const generateDescription = () => {
   const description = descriptions;
   const randomIndex = getRandomInteger(0, description.length - 1);
   return description[randomIndex];
-};
+};*/
 
 const generateCost = () => getRandomInteger(1, 100) * 10;
 
-const generateOffers = () => {
+/*const generateOffers = () => {
   const offers = [
     {
       type: 'Taxi',
@@ -87,24 +77,22 @@ const generateOffers = () => {
     taken[x] = --len;
   }
   return result;
-};
+};*/
 
 
 export const generatePoint = () => {
-  const date = generateBeginEndDates();
+  const dates = generateFromToDates();
+  const destinationArray = destinations();
+  const offerArray = offersList();
 
   return {
-    id: nanoid(),
-    waypointType: generateType(),
-    destination: generateDestination(),
-    startDate: date.start,
-    endDate: date.end,
-    duration: getDuration(),
-    description: generateDescription(),
-    images: generateImages(),
     cost: generateCost(),
-    offers: generateOffers(),
-    isArchive: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
+    dateFrom:dates.from,
+    dateTo:dates.to,
+    destinations: destinationArray[getRandomInteger(0,destinationArray.length-1)],   
+    id: nanoid(),
+    isFavorite:Boolean(getRandomInteger(0,1)),
+    offersList: offerArray,
+    type: offerArray[getRandomInteger(0,offerArray.length-1)].type
   };
 };
