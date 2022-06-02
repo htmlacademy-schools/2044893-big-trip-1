@@ -31,7 +31,7 @@ export default class TripPresenter {
       this.#points = [...points];
       this.#sourcedPoints = [...points];
       //this.points.forEach(this.#renderPoint());
-      this.renderMain();
+      this.#renderMain();
     };
 
     #sortTasks = (sortType) => {
@@ -95,7 +95,7 @@ export default class TripPresenter {
   
     #renderPoints = () => {
       for (let i = 1; i < this.#points.length; i++) {
-        this.renderPoint(this.#points[i]);
+        this.#renderPoint(this.#points[i]);
       }
     };
   
