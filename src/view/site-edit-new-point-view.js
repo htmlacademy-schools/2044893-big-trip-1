@@ -3,6 +3,8 @@ import { destinations } from '../utils/destinations.js';
 import { offersList } from '../utils/offers.js';
 import SmartView from './smart-view';
 import {createWaypointTypesMarkup, createOffersSegmentMarkup} from '../utils/utils.js';
+import flatpickr from 'flatpickr';
+import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 const createEditNewPointTemplate = (point) => {
   const {cost: cost, dateFrom: ISOFrom, dateTo: ISOTo, destination, type} = point;
@@ -81,12 +83,15 @@ const createEditNewPointTemplate = (point) => {
 };
 
 export default class SiteEditNewPoint extends SmartView{
+  #datepickerFrom = null;
+  #datepickerTo = null;
 
   constructor(point) {
     super();
     this._data = PointEditView.parsePointToData(point);
 
     this.#setInnerHandlers();
+    this.#setDatepicker();
   }
 
   get template() {
@@ -99,7 +104,55 @@ export default class SiteEditNewPoint extends SmartView{
     );
   }
 
+  #setDatepicker = () => {
+    this.#datepickerFrom = flatpickr(
+      this.element.querySelector('.event__input-start-time'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i' ,
+        defaultDate: this._data.dateFrom,
+        onChange: this.#dateFromChangeHandler
+      },
+    );
+    this.#datepickerTo = flatpickr(
+      this.element.querySelector('.event__input-end-time'),
+      {
+        enableTime: true,
+        dateFormat: 'd/m/y H:i',
+        defaultDate: this._data.dateTo,
+        onChange: this.#dateToChangeHandler
+      },
+    );
+  }
+
+  #dateFromChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateFrom: userDate.toISOString(),
+    });
+  }
+
+  #dateToChangeHandler = ([userDate]) => {
+    this.updateData({
+      dateTo: userDate.toISOString(),
+    });
+  }
+
+
+  removeElement = () => {
+    super.removeElement();
+
+    if (this.#datepickerFrom) {
+      this.#datepickerFrom.destroy();
+      this.#datepickerFrom = null;
+    }
+    if (this.#datepickerTo) {
+      this.#datepickerTo.destroy();
+      this.#datepickerTo = null;
+    }
+  }
+
   restoreHandlers = () => {
+    this.#setDatepicker();
     this.#setInnerHandlers();
     this.setRollupClickHandler(this._callback.rollupClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
