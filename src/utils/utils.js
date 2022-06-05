@@ -48,25 +48,37 @@ export const generateFromToDates = () => {
   'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.'
 ];*/
 
-export const updateItem = (items, update) => {
-  const index = items.findIndex((item) => item.id === update.id);
-
-  if (index === -1) {
-    return items;
-  }
-
-  return [
-    ...items.slice(0, index),
-    update,
-    ...items.slice(index + 1),
-  ];
-  
-};
+export const dateEquality = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB);
 
 export const SortType = {
   SORT_DAY: 'sort-day',
   SORT_TIME: 'sort-time',
   SORT_PRICE: 'sort-price'
+};
+
+export const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT',
+};
+
+export const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PAST: 'past',
+
+};
+
+export const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+export const filter = {
+  [FilterType.EVERYTHING]: (points) => points.filter((point) => point),
+  [FilterType.FUTURE]: (points) => points.filter((point) => new Date(point.dateFrom) > new Date()),
+  [FilterType.PAST]: (points) => points.filter((point) => new Date(point.dateTo) < new Date()),
 };
 
 export const sortPointByDay = (pointOne, pointTwo) => dayjs(pointOne.dateFrom).diff(dayjs(pointTwo.dateFrom));
@@ -125,4 +137,21 @@ export const createOffersSegmentMarkup = (offersByTypes, pointType) => {
   }
   return '';
 };
+
+export default class AbstractObservable {
+  #observers = new Set();
+
+  addObserver(observer) {
+    this.#observers.add(observer);
+  }
+
+  removeObserver(observer) {
+    this.#observers.delete(observer);
+  }
+
+  _notify(event, payload) {
+    this.#observers.forEach((observer) => observer(event, payload));
+  }
+}
+
 
