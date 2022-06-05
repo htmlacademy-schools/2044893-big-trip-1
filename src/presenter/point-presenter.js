@@ -1,6 +1,8 @@
 import { RenderPosition, render, replace, remove } from '../render';
 import SiteEditNewPoint from '../view/site-edit-new-point-view.js';
 import WaypointTemplate from '../view/site-waypoint-view.js';
+import { UserAction, UpdateType } from '../utils/utils.js';
+import { dateEquality } from '../utils/utils.js';
 
 const Mode = {
     DEFAULT: 'DEFAULT',
@@ -34,6 +36,7 @@ const Mode = {
       this.#waypointComponent.favoriteClickHandler(this.#favoriteClick);
       this.#editPointComponent.eventRollUpBtnHandler(this.#RollUpBtnClick);
       this.#editPointComponent.formSubmitHandler(this.#formSubmit);
+      this.#editPointComponent.deleteClickHandler(this.#deleteClick);
   
       if (prevWaypointComponent === null || prevEditPointComponent === null) {
         render(this.#waypointContainer, this.#waypointComponent, RenderPosition.BEFOREEND);
@@ -90,8 +93,17 @@ const Mode = {
       this.#replaceFormToWaypoint();
     };
   
-    #formSubmit = (pnt) => {
-      this.#changeData(pnt);
+    #formSubmit = (update) => {
+      const isMinorUpdate =
+       !dateEquality(this.#waypoint.dateFrom, update.dateFrom) ||
+       !dateEquality(this.#waypoint.dateTo, update.dateTo) ||
+       (this.#waypoint.cost !== update.cost);
+
+      this.#changeData(
+        UserAction.UPDATE_POINT,
+        isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
+        update,
+      );
       this.#replaceFormToWaypoint();
     };
   
@@ -100,7 +112,19 @@ const Mode = {
     };
   
     #favoriteClick = () => {
-      this.#changeData({...this.#waypoint, isFavorite: !this.#waypoint.isFavorite});
+      this.#changeData(
+        UserAction.UPDATE_POINT,
+        UpdateType.MINOR,
+        {...this.#waypoint, isFavorite: !this.#waypoint.isFavorite}
+      );
     };
+
+    #deleteClick = (task) => {
+      this.#changeData(
+        UserAction.DELETE_POINT,
+        UpdateType.MINOR,
+        task,
+      );
+    }
   }
   
