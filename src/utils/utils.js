@@ -52,7 +52,7 @@ export const dateEquality = (dateA, dateB) => (dateA === null && dateB === null)
 
 export const MenuItem = {
   TABLE: 'TABLE',
-  STATS: 'STATS',
+  STATS: 'STATS'
 };
 
 export const SortType = {
@@ -101,6 +101,7 @@ export const sortPointByPrice = (pointOne, pointTwo) => {
 }; 
  
 export const createWaypointTypesMarkup = (offers, chosenPointType) => {
+  
   const createTypeMarkup = (offer) => {
 
     const isChecked = offer.type === chosenPointType ? 'checked=""' : '';

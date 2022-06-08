@@ -18,11 +18,15 @@ const Mode = {
     #editPointComponent = null;
     #waypoint = null;
     #mode = Mode.DEFAULT;
-  
-    constructor(waypointContainer, changeData, changeMode) {
+    #apiService = null;
+    #destinations = null;
+    #offers = null;
+    constructor(waypointContainer, changeData, changeMode, destinations, offers) {
       this.#waypointContainer = waypointContainer;
       this.#changeData = changeData;
       this.#changeMode = changeMode;
+      this.#destinations = destinations;
+      this.#offers = offers;
     }
   
     init = (waypoint) => {
@@ -30,7 +34,7 @@ const Mode = {
       const prevWaypointComponent = this.#waypointComponent;
       const prevEditPointComponent = this.#editPointComponent;
       this.#waypointComponent = new WaypointTemplate(waypoint);
-      this.#editPointComponent = new SiteEditNewPoint(waypoint);
+      this.#editPointComponent = new SiteEditNewPoint(waypoint, this.#destinations, this.#offers);
   
       this.#waypointComponent.editClickHandler(this.#editClick);
       this.#waypointComponent.favoriteClickHandler(this.#favoriteClick);
