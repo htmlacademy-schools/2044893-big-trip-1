@@ -1,6 +1,6 @@
 import { RenderPosition, render, remove } from './render.js';
 import SiteMenuTemplate from './view/site-menu-view.js';
-import FilterPresenter from './presenter/filter-presenter.js'
+import FilterPresenter from './presenter/filter-presenter.js';
 import { generatePoint } from './mock/point.js';
 import TripPresenter from './presenter/trip-presenter.js';
 import PointsModel from './model/points-model.js';
@@ -57,7 +57,7 @@ const SiteMenuClick = (menuItem) => {
 };
 
 siteMenuComponent.MenuClickHandler(SiteMenuClick);
-filterPresenter.init()
+filterPresenter.init();
 tripPresenter.init();
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {

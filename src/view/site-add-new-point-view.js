@@ -67,7 +67,7 @@ const createAddNewPointTemplate = (point) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(price ? price.toString() : '')}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(cost? cost.toString() : '')}">
                     </div>
   
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -96,7 +96,7 @@ export default class SiteAddNewPoint extends SmartView {
 
   constructor(point) {
     super();
-    this._data = PointAddView.createEmptyPoint(point);
+    this._data = SiteAddNewPoint.createEmptyPoint(point);
 
     this.#setInnerHandlers();
     this.#setDatepicker();
