@@ -6,6 +6,7 @@ const createFilterTemplate = (type, currentFilterType) => (
   <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
 </div>`
 );
+
 const createFiltersTemplate = (filterItems, currentFilterType) => {
   const filterTemplate = filterItems
     .map((filter) => createFilterTemplate(filter, currentFilterType))

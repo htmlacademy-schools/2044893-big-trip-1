@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 import AbstractView from '../view/site-abstract-class-view.js';
-import { offersList } from '../utils/offers.js';
 
 const createWaypointTemplate = (point) => {
-  const {cost: cost, dateFrom: ISOFrom, dateTo: ISOTo, destination, isFavorite: isFavorite, type} = point;
+  const {cost: cost, dateFrom: ISOFrom, dateTo: ISOTo,offers, destination, isFavorite, type} = point;
   const destinationName = destination.name;
   const dayFrom = dayjs(ISOFrom).format('MMM D');
   const dateFrom = dayjs(ISOFrom).format('YYYY-MM-DD');
@@ -49,26 +48,18 @@ const createWaypointTemplate = (point) => {
   const isFavoriteClass = isFavorite ? ' event__favorite-btn--active' : '';
 ///
 
-const CreateOffers = (pointType, offersByTypes) => {
+const CreateOffers = (checkedOffers) => {
 
-  const createOfferMarkup = (offer) => `<li class="event__offer">
+  const createOfferMarkup = (offer) => (offer.isChosen ? `<li class="event__offer">
                   <span class="event__offer-title">${offer.title}</span>
                   &plus;&euro;&nbsp;
                   <span class="event__offer-price">${offer.cost}</span>
-                </li>`;
+                </li>`: '');
 
-  let offersByThemType = [];
-
-  for (let i = 0; i < offersByTypes.length; i++) {
-    if (offersByTypes[i].type === pointType) {
-      offersByThemType = offersByTypes[i].offers;
-    }
-  }
-
-  return offersByThemType.map(createOfferMarkup).join('');
+            return checkedOffers.map(createOfferMarkup).join('');
 };
 
-const OffersMarkup = CreateOffers(type, offersList());
+const OffersMarkup = CreateOffers(offers);
 
   
 

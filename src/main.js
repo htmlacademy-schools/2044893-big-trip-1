@@ -29,6 +29,7 @@ const filterPresenter = new FilterPresenter(tripFiltersElement, filterModel, poi
 
 let mode = 'TABLE';
 
+
 const pointNewFormClose = () => {
   siteMenuComponent.element.querySelector(`[data-menu-item=${MenuItem.TABLE}]`).classList.remove('visually-hidden');
   siteMenuComponent.element.querySelector(`[data-menu-item=${MenuItem.STATS}]`).classList.remove('visually-hidden');
@@ -44,6 +45,10 @@ const SiteMenuClick = (menuItem) => {
         tripPresenter.init();
         remove(statisticsComponent);
         mode = 'TABLE';
+        tripPresenter.init().finally(() => {
+          remove(statisticsComponent);
+          mode = 'TABLE';
+        });
       }
       break;
     case MenuItem.STATS:
@@ -68,7 +73,8 @@ tripPresenter.init().finally(() => {
 });
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {
-    evt.preventDefault();
+  evt.target.disabled = true;  
+  evt.preventDefault();
     remove(statisticsComponent);
     filterPresenter.destroy();
     filterPresenter.init();

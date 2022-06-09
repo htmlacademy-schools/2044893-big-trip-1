@@ -1,22 +1,22 @@
-//import { destinations } from '../utils/destinations.js';
-//import { offersList } from '../utils/offers.js';
+
 import SmartView from './smart-view.js';
-import {createWaypointTypesMarkup, createOffersSegmentMarkup} from '../utils/utils.js';
+import {createWaypointTypesMarkup} from '../utils/utils.js';
+import {getChangedByTypeOffers,changeCheckedOffers,createOffersSegmentMarkup} from '../utils/offers.js';
 import flatpickr from 'flatpickr';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 import he from 'he';
 
-const createEditNewPointTemplate = (point, destinations, offersList) => {
-  const {cost: cost, destination, type} = point;
+const createEditNewPointTemplate = (point, destinations, allOffers) => {
+  const {cost: cost, destination, type, offers, isDisabled, isSaving, isDeleting} = point;
 
   const waypointTypeLabel = type.charAt(0).toUpperCase() + type.slice(1);
 
-  const waypointTypesMarkup = createWaypointTypesMarkup(offersList, type);
+  const waypointTypesMarkup = createWaypointTypesMarkup(allOffers, type);
   const destinationOptions = destinations.map((x) => (`<option value="${x.name}"></option>`)).join('');
 
   const photosMarkup = destination.pictures.map((x) => (`<img class="event__photo" src="${x.src}" alt="${x.description}">`)).join('');
 
-  const editedOffersMarkup = createOffersSegmentMarkup(offersList, type);
+  const editedOffersMarkup = createOffersSegmentMarkup(allOffers, type);
 
 
   return `<li class="trip-events__item">
@@ -27,7 +27,7 @@ const createEditNewPointTemplate = (point, destinations, offersList) => {
                       <span class="visually-hidden">Choose event type</span>
                       <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
-                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+                    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" ${isDisabled ? 'disabled' : ''}>
                     <div class="event__type-list">
                       <fieldset class="event__type-group">
                         <legend class="visually-hidden">Event type</legend>
@@ -39,32 +39,43 @@ const createEditNewPointTemplate = (point, destinations, offersList) => {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${waypointTypeLabel}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination.name)}" list="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination"
+                    value="${he.encode(destination.name)}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
                     <datalist id="destination-list-1">
                       ${destinationOptions}
                     </datalist>
                   </div>
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time event__input-start-time" id="event-start-time-1" type="text" name="event-start-time" value="">
+                    <input class="event__input event__input--time event__input-start-time" id="event-start-time-1" type="text"
+                    name="event-start-time" value="" ${isDisabled ? 'disabled' : ''}>
                     —
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time event__input-end-time" id="event-end-time-1" type="text" name="event-end-time" value="">
+                    <input class="event__input event__input--time event__input-end-time" id="event-end-time-1" type="text"
+                    name="event-end-time" value="" ${isDisabled ? 'disabled' : ''}>
                   </div>
                   <div class="event__field-group  event__field-group--price">
                     <label class="event__label" for="event-price-1">
                       <span class="visually-hidden">Price</span>
                       €
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(cost.toString())}">
+                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price"
+                    value="${he.encode(cost.toString())}" ${isDisabled ? 'disabled' : ''}>
                   </div>
-                  <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-                  <button class="event__reset-btn" type="reset">Delete</button>
+
+                  <button class="event__save-btn  btn  btn--blue" type="submit"
+                  ${isDisabled ? 'disabled' : ''}>
+                    ${isSaving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button class="event__reset-btn" type="reset"
+                  ${isDisabled ? 'disabled' : ''}>
+                    ${isDeleting ? 'Deleting...' : 'Delete'}
+                    </button>
                   <button class="event__rollup-btn" type="button">
                     <span class="visually-hidden">Open event</span>
                   </button>
                 </header>
-                <section class="event__details">
+                <section class="event__details ${isDisabled ? 'visually-hidden' : ''}">
                   ${editedOffersMarkup}
                   <section class="event__section  event__section--destination">
                     ${destination.description ? '<h3 class="event__section-title  event__section-title--destination">Destination</h3>': ''}
@@ -85,19 +96,19 @@ export default class SiteEditNewPoint extends SmartView {
   #datepickerTo = null;
 
   #destinations = null;
-  #offersList = null;
+  #allOffers = null;
 
-  constructor(point, destinations, offersList) {
+  constructor(point, destinations, allOffers) {
     super();
     this._data = SiteEditNewPoint.parsePointToData(point);
     this.#destinations = destinations;
-    this.#offersList = offersList;
+    this.#allOffers = allOffers;
     this.#setInnerHandlers();
     this.#setDatepicker();
   }
 
   get template() {
-    return createEditNewPointTemplate(this._data, this.#destinations, this.#offersList);
+    return createEditNewPointTemplate(this._data, this.#destinations, this.#allOffers);
   }
 
   reset = (point) => {
@@ -184,12 +195,26 @@ export default class SiteEditNewPoint extends SmartView {
       .addEventListener('change', this.#destinationChange);
     this.element.querySelector('.event__input--price')
       .addEventListener('change', this.#costChange);
+
+      const offerElements = this.element.querySelectorAll('.event__offer-label');
+      for (let i = 0; i < offerElements.length; i++) {
+        offerElements[i].addEventListener('click', this.#offerClick);
+      }
   }
 
   #typeGroupClick = (evt) => {
     evt.preventDefault();
     this.updateData({
-      type: evt.target.value
+      type: evt.target.value,
+      offers: getChangedByTypeOffers(this.#allOffers, evt.target.value)
+    }, false);
+  }
+
+  #offerClick = (evt) => {
+    evt.preventDefault();
+    const offers = this._data.offers;
+    this.updateData({
+      offers: changeCheckedOffers(offers, evt.target.getAttribute('data-title'))
     }, false);
   }
 
@@ -226,13 +251,14 @@ export default class SiteEditNewPoint extends SmartView {
     this._callback.deleteClick(SiteEditNewPoint.parseDataToPoint(this._data));
   }
 
-  static parsePointToData = (point) => ({...point,
-    // В будущем здесь появится обработка Предложений (Offers).
+  static parsePointToData = (point) => ({...point, isDisabled: false, isSaving: false, isDeleting: false
   });
 
   static parseDataToPoint = (data) => {
     const point = {...data};
-    // В будущем здесь появится обработка Предложений (Offers).
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
 
     return point;
   }

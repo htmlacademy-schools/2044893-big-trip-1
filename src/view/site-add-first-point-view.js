@@ -7,7 +7,6 @@ const addFirstPointTextType = {
   [FilterType.FUTURE]: 'There are no future events now'
 };
 
-
 const createFirstPointTemplate = (filterType) => {
   const firstPointTextValue = addFirstPointTextType[filterType];
 

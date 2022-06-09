@@ -37,9 +37,7 @@ const Method = {
         headers: new Headers({'Content-Type': 'application/json'}),
       });
   
-      const parsedResponse = await ApiService.parseResponse(response);
-  
-      return parsedResponse;
+      return await ApiService.parseResponse(response);
     }
   
     addPoint = async (point) => {
@@ -49,10 +47,8 @@ const Method = {
         body: JSON.stringify(this.#adaptToServer(point)),
         headers: new Headers({'Content-Type': 'application/json'}),
       });
-  
-      const parsedResponse = await ApiService.parseResponse(response);
-  
-      return parsedResponse;
+
+      return await ApiService.parseResponse(response);
     }
   
     deletePoint = async (point) => {
@@ -113,3 +109,4 @@ const Method = {
       throw err;
     }
   }
+  
