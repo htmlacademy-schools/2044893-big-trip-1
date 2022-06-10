@@ -114,7 +114,7 @@ const Mode = {
     #favoriteClick = () => {
       this.#changeData(
         UserAction.UPDATE_POINT,
-        UpdateType.MINOR,
+        UpdateType.PATCH,
         {...this.#waypoint, isFavorite: !this.#waypoint.isFavorite}
       );
     };
@@ -127,4 +127,5 @@ const Mode = {
       );
     }
   }
+  
   

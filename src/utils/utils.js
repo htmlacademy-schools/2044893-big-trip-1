@@ -50,6 +50,11 @@ export const generateFromToDates = () => {
 
 export const dateEquality = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB);
 
+export const MenuItem = {
+  TABLE: 'TABLE',
+  STATS: 'STATS',
+};
+
 export const SortType = {
   SORT_DAY: 'sort-day',
   SORT_TIME: 'sort-time',

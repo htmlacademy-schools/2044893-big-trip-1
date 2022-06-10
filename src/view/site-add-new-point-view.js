@@ -67,7 +67,7 @@ const createAddNewPointTemplate = (point) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(price ? price.toString() : '')}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(cost? cost.toString() : '')}">
                     </div>
   
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -96,7 +96,7 @@ export default class SiteAddNewPoint extends SmartView {
 
   constructor(point) {
     super();
-    this._data = PointAddView.createEmptyPoint(point);
+    this._data = SiteAddNewPoint.createEmptyPoint(point);
 
     this.#setInnerHandlers();
     this.#setDatepicker();
@@ -123,6 +123,23 @@ export default class SiteAddNewPoint extends SmartView {
     this.updateData(
       SiteAddNewPoint.parsePointToData(point),
     );
+  }
+
+  restoreHandlers = () => {
+    this.#setInnerHandlers();
+    this.#setDatepicker();
+    this.setFormSubmit(this._callback.formSubmit);
+    this.setDeleteClick(this._callback.deleteClick);
+  }
+
+  setDeleteClick = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClick);
+  }
+
+  setFormSubmit = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
   }
 
   #setDatepicker = () => {
@@ -158,12 +175,7 @@ export default class SiteAddNewPoint extends SmartView {
     });
   }
 
-  restoreHandlers = () => {
-    this.#setInnerHandlers();
-    this.#setDatepicker();
-    this.setFormSubmit(this._callback.formSubmit);
-    this.setDeleteClick(this._callback.deleteClick);
-  }
+
 
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group')
@@ -191,35 +203,27 @@ export default class SiteAddNewPoint extends SmartView {
   #costChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      basePrice: evt.target.value
+      cost: parseInt(evt.target.value, 10)
     }, true);
   }
 
-  setFormSubmit = (callback) => {
-    this._callback.formSubmit = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
-  }
 
   #formSubmit = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit(PointAddView.parseDataToPoint(this._data));
+    this._callback.formSubmit(SiteAddNewPoint.parseDataToPoint(this._data));
   }
 
-  setDeleteClick = (callback) => {
-    this._callback.deleteClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClick);
-  }
 
   #formDeleteClick = (evt) => {
     evt.preventDefault();
-    this._callback.deleteClick(PointAddView.parseDataToPoint(this._data));
+    this._callback.deleteClick(SiteAddNewPoint.parseDataToPoint(this._data));
   }
 
   static createEmptyPoint = () => {
     const offerArray = offersList();
     const date = new Date();
     return {
-      basePrice: null,
+      cost: 0,
       dateFrom: date.toISOString(),
       dateTo: date.toISOString(),
       destination: {

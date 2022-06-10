@@ -7,13 +7,15 @@ export default class NewPointPresenter{
     #pointsList = null;
     #changeData = null;
     #addPointItem = null;
-
+    #destroyCallback = null;
     constructor(pointsList, changeData) {
       this.#pointsList = pointsList;
       this.#changeData = changeData;
     }
 
-    init = () => {
+    init = (callback) => {
+      this.#destroyCallback = callback;
+
       if (this.#addPointItem !== null) {
         return;
       }
@@ -31,7 +33,7 @@ export default class NewPointPresenter{
       if (this.#addPointItem === null) {
         return;
       }
-
+      this.#destroyCallback?.();
       remove(this.#addPointItem);
       this.#addPointItem = null;
 

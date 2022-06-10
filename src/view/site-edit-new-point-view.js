@@ -102,6 +102,29 @@ export default class SiteEditNewPoint extends SmartView {
     );
   }
 
+  restoreHandlers = () => {
+    this.#setDatepicker();
+    this.#setInnerHandlers();
+    this.setRollupClickHandler(this._callback.rollupClick);
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setDeleteClickHandler(this._callback.deleteClick);
+  }
+
+  setDeleteClickHandler = (callback) => {
+    this._callback.deleteClick = callback;
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClick);
+  }
+
+  setRollupClickHandler = (callback) => {
+    this._callback.rollupClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupClick);
+  }
+
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
+  }
+
   #setDatepicker = () => {
     this.#datepickerFrom = flatpickr(
       this.element.querySelector('.event__input-start-time'),
@@ -149,13 +172,6 @@ export default class SiteEditNewPoint extends SmartView {
     }
   }
 
-  restoreHandlers = () => {
-    this.#setDatepicker();
-    this.#setInnerHandlers();
-    this.setRollupClickHandler(this._callback.rollupClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
-    this.setDeleteClickHandler(this._callback.deleteClick);
-  }
 
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group')
@@ -163,7 +179,7 @@ export default class SiteEditNewPoint extends SmartView {
     this.element.querySelector('.event__input--destination')
       .addEventListener('change', this.#destinationChange);
     this.element.querySelector('.event__input--price')
-      .addEventListener('change', this.#priceChange);
+      .addEventListener('change', this.#costChange);
   }
 
   #typeGroupClick = (evt) => {
@@ -180,37 +196,26 @@ export default class SiteEditNewPoint extends SmartView {
     }, false);
   }
 
-  #priceChange = (evt) => {
+  #costChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      cost: evt.target.value
+      cost: parseInt(evt.target.value, 10)
     }, true);
   }
 
-  setRollupClickHandler = (callback) => {
-    this._callback.rollupClick = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollupClick);
-  }
 
   #rollupClick = (evt) => {
     evt.preventDefault();
     this._callback.rollupClick();
   }
 
-  setFormSubmitHandler = (callback) => {
-    this._callback.formSubmit = callback;
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmit);
-  }
 
   #formSubmit = (evt) => {
     evt.preventDefault();
     this._callback.formSubmit(SiteEditNewPoint.parseDataToPoint(this._data));
   }
 
-  setDeleteClickHandler = (callback) => {
-    this._callback.deleteClick = callback;
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteClick);
-  }
+
 
   #formDeleteClick = (evt) => {
     evt.preventDefault();
