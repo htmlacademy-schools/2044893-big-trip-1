@@ -14,7 +14,7 @@ const countPricesByType = (points, types) => {
     'FLIGHT': 0,
     'CHECK-IN': 0,
     'SIGHTSEEING': 0,
-    'RESTAURANT': 0,
+    'RESTAURANT': 0
   };
 
   for (const type of types) {

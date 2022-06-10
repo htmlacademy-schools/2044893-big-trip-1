@@ -34,20 +34,6 @@ export const generateFromToDates = () => {
   };
 };
 
-//export const dateRend = (date, format) => dayjs(date).format(format);
-
-
-//export const cities = ['Chelyabinsk', 'Ekaterinburg', 'Detroit', 'New-York', 'Norilsk', 'London','Washington','Kansas'];
-//export const waypointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'restaurant','sightseeing'];
-
-/*export const descriptions = [
-  'Fusce tristique felis at fermentum pharetra.',
-  'In rutrum ac purus sit amet tempus.',
-  'Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.'
-];*/
-
 export const dateEquality = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB);
 
 export const MenuItem = {
@@ -64,20 +50,20 @@ export const SortType = {
 export const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
   ADD_POINT: 'ADD_POINT',
-  DELETE_POINT: 'DELETE_POINT',
+  DELETE_POINT: 'DELETE_POINT'
 };
 
 export const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
-  PAST: 'past',
-
+  PAST: 'past'
 };
 
 export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 export const filter = {

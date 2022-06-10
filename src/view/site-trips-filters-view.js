@@ -12,7 +12,7 @@ const createFiltersTemplate = (filterItems, currentFilterType) => {
     .map((filter) => createFilterTemplate(filter, currentFilterType))
     .join('');
   return `<form class="trip-filters" action="#" method="get">
-        ${createFiltersTemplate}
+        ${filterTemplate}
         </form>`;
 };
 export default class TripFiltersTemplate extends AbstractView {
@@ -24,7 +24,7 @@ export default class TripFiltersTemplate extends AbstractView {
     this.#currentFilter = currentFilterType;
   }
   get template() {
-    return createFilterTemplate(this.#filters, this.#currentFilter);
+    return createFiltersTemplate(this.#filters, this.#currentFilter);
   }
 
   FilterTypeChangeHandler = (callback) => {

@@ -27,8 +27,8 @@ export default class NewPointPresenter{
       this.#allOffers = allOffers;
 
       this.#addPointItem = new SiteAddNewPoint(this.#destinations,this.#allOffers);
-      this.#addPointItem.FormSubmitHandler(this.#FormSubmit);
-      this.#addPointItem.DeleteClickHandler(this.#DeleteClick);
+      this.#addPointItem.setFormSubmit(this.#FormSubmit);
+      this.#addPointItem.setDeleteClick(this.#formDeleteClick);
 
       render(this.#pointsList, this.#addPointItem, RenderPosition.AFTERBEGIN);
 
@@ -75,7 +75,7 @@ export default class NewPointPresenter{
       document.querySelector('.trip-main__event-add-btn').disabled = false;
     }
 
-    #DeleteClick = () => {
+    #formDeleteClick = () => {
       this.destroy();
     }
 

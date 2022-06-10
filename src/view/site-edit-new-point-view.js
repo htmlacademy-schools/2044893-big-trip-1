@@ -16,7 +16,7 @@ const createEditNewPointTemplate = (point, destinations, allOffers) => {
 
   const photosMarkup = destination.pictures.map((x) => (`<img class="event__photo" src="${x.src}" alt="${x.description}">`)).join('');
 
-  const editedOffersMarkup = createOffersSegmentMarkup(allOffers, type);
+  const editedOffersMarkup = createOffersSegmentMarkup(offers, type);
 
 
   return `<li class="trip-events__item">
@@ -118,8 +118,8 @@ export default class SiteEditNewPoint extends SmartView {
   }
 
   restoreHandlers = () => {
-    this.#setDatepicker();
     this.#setInnerHandlers();
+    this.#setDatepicker();
     this.setRollupClickHandler(this._callback.rollupClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setDeleteClickHandler(this._callback.deleteClick);

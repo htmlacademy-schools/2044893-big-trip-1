@@ -56,7 +56,7 @@ const CreateOffers = (checkedOffers) => {
                   <span class="event__offer-price">${offer.cost}</span>
                 </li>`: '');
 
-            return checkedOffers.map(createOfferMarkup).join('');
+  return checkedOffers.map(createOfferMarkup).join('');
 };
 
 const OffersMarkup = CreateOffers(offers);
@@ -98,7 +98,7 @@ return `<li class="trip-events__item">
 
 
 export default class WaypointTemplate extends AbstractView {
-  #point = {};
+  #point = null;
 
   constructor(point) {
     super();

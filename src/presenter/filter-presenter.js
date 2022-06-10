@@ -1,6 +1,8 @@
 import TripFiltersTemplate from '../view/site-trips-filters-view.js';
 import { render, RenderPosition, replace, remove } from '../render.js';
 import { UpdateType,FilterType } from '../utils/utils.js';
+
+
 export default class FilterPresenter {
     #filterContainer = null;
     #filterModel = null;

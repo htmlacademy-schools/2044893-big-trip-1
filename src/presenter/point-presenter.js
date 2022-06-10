@@ -4,6 +4,7 @@ import WaypointTemplate from '../view/site-waypoint-view.js';
 import { UserAction, UpdateType } from '../utils/utils.js';
 import { dateEquality } from '../utils/utils.js';
 
+
 export const State = {
   SAVING: 'SAVING',
   DELETING: 'DELETING',
@@ -44,9 +45,9 @@ const Mode = {
   
       this.#waypointComponent.editClickHandler(this.#editClick);
       this.#waypointComponent.favoriteClickHandler(this.#favoriteClick);
-      this.#editPointComponent.eventRollUpBtnHandler(this.#RollUpBtnClick);
-      this.#editPointComponent.formSubmitHandler(this.#formSubmit);
-      this.#editPointComponent.deleteClickHandler(this.#deleteClick);
+      this.#editPointComponent.setRollupClickHandler(this.#RollUpBtnClick);
+      this.#editPointComponent.setFormSubmitHandler(this.#formSubmit);
+      this.#editPointComponent.setDeleteClickHandler(this.#deleteClick);
   
       if (prevWaypointComponent === null || prevEditPointComponent === null) {
         render(this.#waypointContainer, this.#waypointComponent, RenderPosition.BEFOREEND);

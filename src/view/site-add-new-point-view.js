@@ -103,7 +103,7 @@ export default class SiteAddNewPoint extends SmartView {
     super();
     this._data = SiteAddNewPoint.createEmptyPoint(offers);
     this.#destinations = destinations;
-    this.#allOffers = offers;
+    this.#allOffers = allOffers;
     this.#setInnerHandlers();
     this.#setDatepicker();
   }
