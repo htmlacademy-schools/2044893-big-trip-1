@@ -1,22 +1,22 @@
-import { destinations } from '../utils/destinations.js';
-import { offersList } from '../utils/offers.js';
+//import { destinations } from '../utils/destinations.js';
+//import { offersList } from '../utils/offers.js';
 import SmartView from './smart-view.js';
 import {createWaypointTypesMarkup, createOffersSegmentMarkup} from '../utils/utils.js';
 import flatpickr from 'flatpickr';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 import he from 'he';
 
-const createEditNewPointTemplate = (point) => {
+const createEditNewPointTemplate = (point, destinations, offersList) => {
   const {cost: cost, destination, type} = point;
 
   const waypointTypeLabel = type.charAt(0).toUpperCase() + type.slice(1);
 
-  const waypointTypesMarkup = createWaypointTypesMarkup(offersList(), type);
-  const destinationOptions = destinations().map((x) => (`<option value="${x.name}"></option>`)).join('');
+  const waypointTypesMarkup = createWaypointTypesMarkup(offersList, type);
+  const destinationOptions = destinations.map((x) => (`<option value="${x.name}"></option>`)).join('');
 
   const photosMarkup = destination.pictures.map((x) => (`<img class="event__photo" src="${x.src}" alt="${x.description}">`)).join('');
 
-  const editedOffersMarkup = createOffersSegmentMarkup(offersList(), type);
+  const editedOffersMarkup = createOffersSegmentMarkup(offersList, type);
 
 
   return `<li class="trip-events__item">
@@ -84,16 +84,20 @@ export default class SiteEditNewPoint extends SmartView {
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  constructor(point) {
+  #destinations = null;
+  #offersList = null;
+
+  constructor(point, destinations, offersList) {
     super();
     this._data = SiteEditNewPoint.parsePointToData(point);
-
+    this.#destinations = destinations;
+    this.#offersList = offersList;
     this.#setInnerHandlers();
     this.#setDatepicker();
   }
 
   get template() {
-    return createEditNewPointTemplate(this._data);
+    return createEditNewPointTemplate(this._data, this.#destinations, this.#offersList);
   }
 
   reset = (point) => {
@@ -192,7 +196,7 @@ export default class SiteEditNewPoint extends SmartView {
   #destinationChange = (evt) => {
     evt.preventDefault();
     this.updateData({
-      destination: this.#getChangedDestination(evt.target.value)
+      destination: this.#getChangedDestination(evt.target.value, this.#destinations)
     }, false);
   }
 
@@ -233,8 +237,8 @@ export default class SiteEditNewPoint extends SmartView {
     return point;
   }
 
-  #getChangedDestination = (destinationName) => {
-    const allDestinations = destinations();
+  #getChangedDestination = (destinationName, destinations) => {
+    const allDestinations = destinations;
 
     for (let i = 0; i < allDestinations.length; i++) {
       if (allDestinations[i].name === destinationName) {

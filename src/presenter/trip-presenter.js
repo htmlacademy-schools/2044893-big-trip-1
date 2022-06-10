@@ -7,9 +7,11 @@ import NewPointPresenter from './new-point-presenter.js';
 import { filter } from '../utils/utils.js';
 import { SortType, UpdateType, FilterType, UserAction } from '../utils/utils.js';
 import { sortPointByDay,sortPointByDuration,sortPointByPrice } from '../utils/utils.js';
-import SiteAddNewPoint from '../view/site-add-new-point-view.js';
+//import SiteAddNewPoint from '../view/site-add-new-point-view.js';
+import LoadingView from '../view/loading-view.js';
 
 export default class TripPresenter {
+    #apiService = null;
     #mainElement = null; 
     #tableContainer = null;
     #pointsModel = null;
@@ -18,6 +20,7 @@ export default class TripPresenter {
     #tripSortComponent = null;
     #siteAddFirstComponent = null;
     #EventListComponent = new EventsListTemplate();
+    #loadingComponent = new LoadingView();
   
 
   
@@ -27,13 +30,17 @@ export default class TripPresenter {
     #currentSortType = SortType.SORT_DAY;
     //#sourcedPoints = [];
     #filterType = FilterType.EVERYTHING;
+    #isLoading = true;
+    #destinations = null;
+    #offers = null;
 
-    constructor(mainElement, pointsModel, filterModel) {
+    constructor(mainElement, pointsModel, filterModel, apiService) {
       this.#mainElement = mainElement;
       this.#tableContainer = this.#mainElement.querySelector('.trip-events');
 
       this.#pointsModel = pointsModel;
       this.#filterModel = filterModel;
+      this.apiService = apiService;
   
       this.#newPointPresenter = new NewPointPresenter(this.#EventListComponent, this.#handleViewAction);
   
@@ -55,7 +62,19 @@ export default class TripPresenter {
       return filteredPoints;
     }
     
-    init = () => {
+    init = async () => {
+      try {
+        this.#destinations = await this.#apiService.destinations;
+      } catch(err) {
+        this.#destinations = [];
+      }
+  
+      try {
+        this.#offers = await this.#apiService.offers;
+      } catch(err) {
+        this.#offers = [];
+      }
+
       this.#pointsModel.addObserver(this.#handleModelEvent);
       this.#filterModel.addObserver(this.#handleModelEvent);
       this.#renderMain();
@@ -74,6 +93,11 @@ export default class TripPresenter {
           this.#clearMain(true);
           this.#renderMain();
         break;
+        case UpdateType.INIT:
+          this.#isLoading = false;
+          remove(this.#loadingComponent);
+          this.#renderMain();
+          break;
       }
     };
   
@@ -88,7 +112,7 @@ export default class TripPresenter {
     createPoint = (callback) => {
       this.#clearMain();
       this.#renderMain();
-      this.#newPointPresenter.init(callback);
+      this.#newPointPresenter.init(callback, this.#destinations, this.#offers);
     }
   
     #handleViewAction = (actionType, updateType, update) => {
@@ -129,11 +153,15 @@ export default class TripPresenter {
     };
   
     #renderPoint = (point) => {
-      const pointPresenter = new PointPresenter(this.#EventListComponent, this.#handleViewAction, this.#handleModeChange);
+      const pointPresenter = new PointPresenter(this.#EventListComponent, this.#handleViewAction, this.#handleModeChange, this.#destinations, this.#offers);
       pointPresenter.init(point);
       this.#pointPresenter.set(point.id, pointPresenter);
     };
-  
+
+    #renderLoading = () => {
+      render(this.#tableContainer, this.#loadingComponent, RenderPosition.AFTERBEGIN);
+    }
+    
     #renderPoints = (points) => {
       points.forEach((point) => this.#renderPoint(point));
   
@@ -147,6 +175,7 @@ export default class TripPresenter {
   
       remove(this.#tripSortComponent);
       remove(this.#EventListComponent);
+      remove(this.#loadingComponent);
       if (this.#siteAddFirstComponent) {
         remove(this.#siteAddFirstComponent);
       }
@@ -157,12 +186,16 @@ export default class TripPresenter {
     }
 
     #renderFirstPoint = () => {
-      this.#siteAddFirstComponent = new SiteAddNewPoint(this.#filterType);
+      this.#siteAddFirstComponent = new SiteAddFirstPoint(this.#filterType);
       render(this.#EventListComponent, this.#siteAddFirstComponent, RenderPosition.AFTERBEGIN);
 
     }
 
     #renderMain = () => {
+      if (this.#isLoading) {
+        this.#renderLoading();
+        return;
+      }
       render(this.#tableContainer,this.#EventListComponent,RenderPosition.BEFOREEND)
       const points = this.points;
       const pointCount = points.length;
@@ -175,4 +208,4 @@ export default class TripPresenter {
       this.#renderPoints(points);
 
     };
-    }
+  }

@@ -1,17 +1,17 @@
 import SmartView from './smart-view.js';
-import { destinations } from '../utils/destinations.js';
-import { offersList } from '../utils/offers.js';
+//import { destinations } from '../utils/destinations.js';
+//import { offersList } from '../utils/offers.js';
 import { createOffersSegmentMarkup, createWaypointTypesMarkup } from '../utils/utils.js';
 import flatpickr from 'flatpickr';
 import he from 'he';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
 
-const createAddNewPointTemplate = (point) => {
+const createAddNewPointTemplate = (point, destinations, offersList) => {
   const {cost: cost, destination, type} = point;
   const pointTypeLabel = type ? type.charAt(0).toUpperCase() + type.slice(1) : '';
-  const pointTypesMarkup = createWaypointTypesMarkup(offersList(), type);
-  const destinationOptions = destinations().map((x) => (`<option value="${x.name}"></option>`)).join('');
+  const pointTypesMarkup = createWaypointTypesMarkup(offersList, type);
+  const destinationOptions = destinations.map((x) => (`<option value="${x.name}"></option>`)).join('');
 
   const createImages= (dest) => {
     if (dest.pictures.length > 0) {
@@ -23,7 +23,7 @@ const createAddNewPointTemplate = (point) => {
   };
 
   const imagesMarkup = createImages(destination);
-  const editedOffersMarkup = createOffersSegmentMarkup(offersList(), type);
+  const editedOffersMarkup = createOffersSegmentMarkup(offersList, type);
 
 
   return `<li class="trip-events__item">
@@ -67,7 +67,7 @@ const createAddNewPointTemplate = (point) => {
                         <span class="visually-hidden">Price</span>
                         &euro;
                       </label>
-                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(cost? cost.toString() : '')}">
+                      <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${he.encode(cost.toString() ? cost.toString() : '')}">
                     </div>
   
                     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -94,16 +94,20 @@ export default class SiteAddNewPoint extends SmartView {
   #datepickerFrom = null;
   #datepickerTo = null;
 
-  constructor(point) {
-    super();
-    this._data = SiteAddNewPoint.createEmptyPoint(point);
+  #destinations = null;
+  #offersList = null;
 
+  constructor(destinations, offersList) {
+    super();
+    this._data = SiteAddNewPoint.createEmptyPoint(offersList);
+    this.#destinations = destinations;
+    this.#offersList = offersList;
     this.#setInnerHandlers();
     this.#setDatepicker();
   }
 
   get template() {
-    return createAddNewPointTemplate(this._data);
+    return createAddNewPointTemplate(this._data, this.#destinations, this.#offersList);
   }
 
   removeElement = () => {
@@ -219,8 +223,8 @@ export default class SiteAddNewPoint extends SmartView {
     this._callback.deleteClick(SiteAddNewPoint.parseDataToPoint(this._data));
   }
 
-  static createEmptyPoint = () => {
-    const offerArray = offersList();
+  static createEmptyPoint = (offersList) => {
+    const offerArray = offersList;
     const date = new Date();
     return {
       cost: 0,
@@ -231,7 +235,7 @@ export default class SiteAddNewPoint extends SmartView {
         'name': '',
         'pictures': []
       },
-      id: null,
+      //id: null,
       isFavorite: false,
       offers: offerArray,
       type: 'taxi'
@@ -248,7 +252,7 @@ export default class SiteAddNewPoint extends SmartView {
   }
 
   #getChangedDestination = (destinationName) => {
-    const allDestinations = destinations();
+    const allDestinations = this.#destinations;
 
     for (let i = 0; i < allDestinations.length; i++) {
       if (allDestinations[i].name === destinationName) {

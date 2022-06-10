@@ -1,6 +1,5 @@
 import { remove, render, RenderPosition } from '../render';
 import SiteAddNewPoint from '../view/site-add-new-point-view.js';
-import { nanoid } from 'nanoid';
 import { UserAction, UpdateType } from '../utils/utils.js';
 
 export default class NewPointPresenter{
@@ -8,19 +7,26 @@ export default class NewPointPresenter{
     #changeData = null;
     #addPointItem = null;
     #destroyCallback = null;
+
+    #offers = null;
+    #destinations = null;
+
     constructor(pointsList, changeData) {
       this.#pointsList = pointsList;
       this.#changeData = changeData;
     }
 
-    init = (callback) => {
+    init = (callback,destinations,offers) => {
       this.#destroyCallback = callback;
 
       if (this.#addPointItem !== null) {
         return;
       }
+      
+      this.#destinations = destinations;
+      this.#offers = offers;
 
-      this.#addPointItem = new SiteAddNewPoint();
+      this.#addPointItem = new SiteAddNewPoint(this.#destinations,this.#offers);
       this.#addPointItem.FormSubmitHandler(this.#FormSubmit);
       this.#addPointItem.DeleteClickHandler(this.#DeleteClick);
 
@@ -40,11 +46,11 @@ export default class NewPointPresenter{
       document.removeEventListener('keydown', this.#escKeyDown);
     }
 
-    #FormSubmit = (task) => {
+    #FormSubmit = (point) => {
       this.#changeData(
         UserAction.ADD_POINT,
         UpdateType.MINOR,
-        {id: nanoid(), ...task},
+        point
       );
       this.destroy();
     }
