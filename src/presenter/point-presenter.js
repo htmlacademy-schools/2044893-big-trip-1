@@ -4,6 +4,13 @@ import WaypointTemplate from '../view/site-waypoint-view.js';
 import { UserAction, UpdateType } from '../utils/utils.js';
 import { dateEquality } from '../utils/utils.js';
 
+
+export const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING',
+  ABORTING: 'ABORTING'
+};
+
 const Mode = {
     DEFAULT: 'DEFAULT',
     EDITING: 'EDITING',
@@ -18,15 +25,15 @@ const Mode = {
     #editPointComponent = null;
     #waypoint = null;
     #mode = Mode.DEFAULT;
-    #apiService = null;
     #destinations = null;
-    #offers = null;
-    constructor(waypointContainer, changeData, changeMode, destinations, offers) {
+    #allOffers = null;
+
+    constructor(waypointContainer, changeData, changeMode, destinations, allOffers) {
       this.#waypointContainer = waypointContainer;
       this.#changeData = changeData;
       this.#changeMode = changeMode;
       this.#destinations = destinations;
-      this.#offers = offers;
+      this.#allOffers = allOffers;
     }
   
     init = (waypoint) => {
@@ -34,13 +41,13 @@ const Mode = {
       const prevWaypointComponent = this.#waypointComponent;
       const prevEditPointComponent = this.#editPointComponent;
       this.#waypointComponent = new WaypointTemplate(waypoint);
-      this.#editPointComponent = new SiteEditNewPoint(waypoint, this.#destinations, this.#offers);
+      this.#editPointComponent = new SiteEditNewPoint(waypoint, this.#destinations, this.#allOffers);
   
       this.#waypointComponent.editClickHandler(this.#editClick);
       this.#waypointComponent.favoriteClickHandler(this.#favoriteClick);
-      this.#editPointComponent.eventRollUpBtnHandler(this.#RollUpBtnClick);
-      this.#editPointComponent.formSubmitHandler(this.#formSubmit);
-      this.#editPointComponent.deleteClickHandler(this.#deleteClick);
+      this.#editPointComponent.setRollupClickHandler(this.#RollUpBtnClick);
+      this.#editPointComponent.setFormSubmitHandler(this.#formSubmit);
+      this.#editPointComponent.setDeleteClickHandler(this.#deleteClick);
   
       if (prevWaypointComponent === null || prevEditPointComponent === null) {
         render(this.#waypointContainer, this.#waypointComponent, RenderPosition.BEFOREEND);
@@ -52,7 +59,8 @@ const Mode = {
       }
   
       if (this.#mode === Mode.EDITING) {
-        replace(this.#editPointComponent, prevEditPointComponent);
+        replace(this.#waypointComponent, prevEditPointComponent);
+        this.#mode = Mode.DEFAULT;
       }
   
       remove(prevWaypointComponent);
@@ -70,6 +78,39 @@ const Mode = {
         this.#replaceFormToWaypoint();
       }
     };
+
+    setViewState = (state) => {
+      if (this.#mode === Mode.DEFAULT) {
+        return;
+      }
+  
+      const resetFormState = () => {
+        this.#editPointComponent.updateData({
+          isDisabled: false,
+          isSaving: false,
+          isDeleting: false,
+        });
+      };
+  
+      switch (state) {
+        case State.SAVING:
+          this.#editPointComponent.updateData({
+            isDisabled: true,
+            isSaving: true,
+          });
+          break;
+        case State.DELETING:
+          this.#editPointComponent.updateData({
+            isDisabled: true,
+            isDeleting: true,
+          });
+          break;
+        case State.ABORTING:
+          this.#waypointComponent.shake(resetFormState);
+          this.#editPointComponent.shake(resetFormState);
+          break;
+      }
+    }
   
     #replaceWaypointToForm = () => {
       replace(this.#editPointComponent, this.#waypointComponent);
@@ -108,7 +149,6 @@ const Mode = {
         isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
         update,
       );
-      this.#replaceFormToWaypoint();
     };
   
     #editClick = () => {

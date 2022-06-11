@@ -34,20 +34,6 @@ export const generateFromToDates = () => {
   };
 };
 
-//export const dateRend = (date, format) => dayjs(date).format(format);
-
-
-//export const cities = ['Chelyabinsk', 'Ekaterinburg', 'Detroit', 'New-York', 'Norilsk', 'London','Washington','Kansas'];
-//export const waypointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'restaurant','sightseeing'];
-
-/*export const descriptions = [
-  'Fusce tristique felis at fermentum pharetra.',
-  'In rutrum ac purus sit amet tempus.',
-  'Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.'
-];*/
-
 export const dateEquality = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB);
 
 export const MenuItem = {
@@ -64,20 +50,20 @@ export const SortType = {
 export const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
   ADD_POINT: 'ADD_POINT',
-  DELETE_POINT: 'DELETE_POINT',
+  DELETE_POINT: 'DELETE_POINT'
 };
 
 export const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
-  PAST: 'past',
-
+  PAST: 'past'
 };
 
 export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 export const filter = {
@@ -101,48 +87,22 @@ export const sortPointByPrice = (pointOne, pointTwo) => {
 }; 
  
 export const createWaypointTypesMarkup = (offers, chosenPointType) => {
-  
-  const createTypeMarkup = (offer) => {
 
+  const createTypeMarkup = (offer) => {
     const isChecked = offer.type === chosenPointType ? 'checked=""' : '';
     const label = offer.type.charAt(0).toUpperCase() + offer.type.slice(1);
 
     return `<div class="event__type-item">
-                          <input id="event-type-${offer.type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${isChecked}>
-                          <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-1">${label}</label>
+                          <input id="event-type-${offer.type}-1" class="event__type-input  visually-hidden"
+                          type="radio" name="event-type" value="${offer.type}" ${isChecked}>
+                          <label class="event__type-label  event__type-label--${offer.type}"
+                          for="event-type-${offer.type}-1">${label}</label>
                         </div>`;
   };
 
   return offers.map(createTypeMarkup).join('');
 };
 
-export const createOffersSegmentMarkup = (offersByTypes, pointType) => {
-  const createOfferMarkup = (offer) => `<div class="event__available-offers">
-                      <div class="event__offer-selector">
-                        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${pointType}-1" type="checkbox" name="event-offer-${pointType}">
-                        <label class="event__offer-label" for="event-offer-name-1">
-                          <span class="event__offer-title">${offer.title}</span>
-                          &plus;&euro;&nbsp;
-                          <span class="event__offer-price">${offer.cost}</span>
-                        </label>
-                      </div>`;
-
-  let offersByCurrentType = [];
-
-  for (let i = 0; i < offersByTypes.length; i++) {
-    if (offersByTypes[i].type === pointType) {
-      offersByCurrentType = offersByTypes[i].offers;
-    }
-  }
-  const offersMarkup = offersByCurrentType.map(createOfferMarkup).join('');
-
-  if (offersByCurrentType.length !== 0){
-    return `<section class="event__section  event__section--offers">
-                    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-                    ${offersMarkup}</section>`;
-  }
-  return '';
-};
 
 export default class AbstractObservable {
   #observers = new Set();

@@ -1,7 +1,6 @@
 import { RenderPosition, render, remove } from './render.js';
 import SiteMenuTemplate from './view/site-menu-view.js';
 import FilterPresenter from './presenter/filter-presenter.js';
-//import { generatePoint } from './mock/point.js';
 import TripPresenter from './presenter/trip-presenter.js';
 import PointsModel from './model/points-model.js';
 import FilterModel from './model/filter-model.js';
@@ -17,17 +16,17 @@ tripFiltersElement.classList.add('visually-hidden');
 const AUTHORIZATION = 'Basic er883jdzbdw';
 const END_POINT = 'https://16.ecmascript.pages.academy/big-trip';
 const apiService = new ApiService(END_POINT, AUTHORIZATION);
-//const COUNT = 3;
-//const points = Array.from({length: COUNT}, generatePoint);
+
 const pointsModel = new PointsModel(apiService);
 const filterModel = new FilterModel();
 
 const siteMenuComponent = new SiteMenuTemplate();
 
-const tripPresenter = new TripPresenter(pageBodyElement,pointsModel,filterModel, apiService);
+const tripPresenter = new TripPresenter(pageBodyElement, pointsModel, filterModel, apiService);
 const filterPresenter = new FilterPresenter(tripFiltersElement, filterModel, pointsModel);
 
 let mode = 'TABLE';
+
 
 const pointNewFormClose = () => {
   siteMenuComponent.element.querySelector(`[data-menu-item=${MenuItem.TABLE}]`).classList.remove('visually-hidden');
@@ -41,9 +40,10 @@ const SiteMenuClick = (menuItem) => {
     case MenuItem.TABLE:
       if (mode !== 'TABLE') {
         filterPresenter.init();
-        tripPresenter.init();
-        remove(statisticsComponent);
-        mode = 'TABLE';
+        tripPresenter.init().finally(() => {
+          remove(statisticsComponent);
+          mode = 'TABLE';
+        });
       }
       break;
     case MenuItem.STATS:
@@ -68,7 +68,8 @@ tripPresenter.init().finally(() => {
 });
 
 document.querySelector('.trip-main__event-add-btn').addEventListener('click', (evt) => {
-    evt.preventDefault();
+  evt.target.disabled = true;  
+  evt.preventDefault();
     remove(statisticsComponent);
     filterPresenter.destroy();
     filterPresenter.init();

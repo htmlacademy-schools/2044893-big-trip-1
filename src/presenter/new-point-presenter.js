@@ -8,7 +8,7 @@ export default class NewPointPresenter{
     #addPointItem = null;
     #destroyCallback = null;
 
-    #offers = null;
+    #allOffers = null;
     #destinations = null;
 
     constructor(pointsList, changeData) {
@@ -16,7 +16,7 @@ export default class NewPointPresenter{
       this.#changeData = changeData;
     }
 
-    init = (callback,destinations,offers) => {
+    init = (callback,destinations,allOffers) => {
       this.#destroyCallback = callback;
 
       if (this.#addPointItem !== null) {
@@ -24,11 +24,11 @@ export default class NewPointPresenter{
       }
       
       this.#destinations = destinations;
-      this.#offers = offers;
+      this.#allOffers = allOffers;
 
-      this.#addPointItem = new SiteAddNewPoint(this.#destinations,this.#offers);
-      this.#addPointItem.FormSubmitHandler(this.#FormSubmit);
-      this.#addPointItem.DeleteClickHandler(this.#DeleteClick);
+      this.#addPointItem = new SiteAddNewPoint(this.#destinations,this.#allOffers);
+      this.#addPointItem.setFormSubmit(this.#FormSubmit);
+      this.#addPointItem.setDeleteClick(this.#formDeleteClick);
 
       render(this.#pointsList, this.#addPointItem, RenderPosition.AFTERBEGIN);
 
@@ -44,6 +44,26 @@ export default class NewPointPresenter{
       this.#addPointItem = null;
 
       document.removeEventListener('keydown', this.#escKeyDown);
+      document.querySelector('.trip-main__event-add-btn').disabled = false;
+    }
+    
+    setSaving = () => {
+      this.#addPointItem.updateData({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  
+    setAborting = () => {
+      const resetFormState = () => {
+        this.#addPointItem.updateData({
+          isDisabled: false,
+          isSaving: false,
+          isDeleting: false,
+        });
+      };
+  
+      this.#addPointItem.shake(resetFormState);
     }
 
     #FormSubmit = (point) => {
@@ -52,10 +72,10 @@ export default class NewPointPresenter{
         UpdateType.MINOR,
         point
       );
-      this.destroy();
+      document.querySelector('.trip-main__event-add-btn').disabled = false;
     }
 
-    #DeleteClick = () => {
+    #formDeleteClick = () => {
       this.destroy();
     }
 
